@@ -1,0 +1,145 @@
+body {
+    font-family: "Overlock", sans-serif;
+    font-size: 2.2em;
+    background: #dcc4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 10vh;
+    margin: 0;
+    padding: 15px;
+}
+
+h1 {
+    color: #6a6868;
+    margin-bottom: 5px;
+    font-size: 1.8em;
+    
+}
+
+#fileInput {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 2px dashed #c7a1f6;
+    border-radius: 10px;
+    background: #ecf0f1;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+#fileInput:hover {
+    background: #d6eaf8;
+    border-color: #d8d5e6;
+}
+
+
+#preview {
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#analyzeBtn {
+    background: #5c5c5c;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: "Overlock", sans-serif;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#analyzeBtn:hover {
+    background: #d1b9e6;
+    transform: scale(1.05);
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #e6def2;
+    color: #8f8e8e;
+    min-width: 200px;
+    font-family: "Overlock", sans-serif;
+}
+
+.instructions {
+    font-family: "Overlock", sans-serif;
+    background-color: #e6def2;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+    color: #333;
+    font-size: 18px;
+    
+}
+
+.instructions h2 {
+    font-family: "Overlock", sans-serif;
+    margin-bottom: 10px;
+    font-size: 30px;
+    color: #5a5858;
+}
+
+.instructions ul {
+    color: #8f8e8e;
+    list-style: none;
+    padding: 0;
+}
+
+.instructions li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.instructions .icon {
+    font-size: 24px;
+    margin-right: 10px;
+    min-width: 30px;
+}
+
+.icon-img {
+    width: 52px;
+    height: 52px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+#icerik-onerileri {
+    margin-top: 30px;
+    width: 90%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+  }
+  
+  #icerik-onerileri .kart {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f0f0f5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+#urun-onerileri{
+
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f0f0f5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+}
+  

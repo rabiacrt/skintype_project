@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cilt Tipi Analizi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Overlock&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Cilt Analizim</h1>
+
+    <div class="instructions">
+        <h2>Analizde kullanılan selfie için bazı talimatlar:</h2>
+        <ul>
+            <li>
+                <img src="{{ url_for('static', filename='images/glasses.png') }}" alt="Gözlük" class="icon-img">
+                <div>
+                    <strong>Gözlüklerinizi çıkarın. </strong><br>
+                    Gözlükler, yüz hatlarınızı tam olarak göstermeyebilir. Lütfen gözlüğünüzü çıkarın ve yüzünüzün temiz olduğundan emin olun. Bu, analiz için daha doğru sonuçlar sağlar.
+                </div>
+            </li>
+            <li>
+                <img src="{{ url_for('static', filename='images/makeup.png') }}" alt="Makyaj" class="icon-img">
+                <div>
+                    <strong>Makyajsız olması daha iyi olacaktır. </strong><br>
+                    Makyaj, cilt dokunuzu ve tonunuzu örtebilir. Cildinizin doğal hâlini göstermeniz, analizimizin daha isabetli olmasına yardımcı olur. Lütfen yüzünüzde makyaj olmadığından emin olun.
+
+                </div>
+            </li>
+            <li>
+                <img src="{{ url_for('static', filename='images/lightbulb.png') }}" alt="Işık" class="icon-img">
+                <div>
+                    <strong>İyi aydınlatılmış bir ortam seçin.</strong><br>
+                    Doğal ışıkta çekilen fotoğraflar, cilt detaylarını en iyi şekilde gösterir. Işık yüzünüze doğrudan gelecek şekilde konumlanın. Karanlık ya da gölgeli ortamlardan kaçının.
+                </div>
+            </li>
+            <li>
+                <img src="{{ url_for('static', filename='images/face.png') }}" alt="Yüz" class="icon-img">
+                <div>
+                    <strong>Yüzünüzün net göründüğünden emin olun.</strong><br>
+                    Yanak veya T bölgesini içeren bir fotoğraf seçin. Kamera ile aranızdaki mesafe çok yakın veya çok uzak olmamalı.
+
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+   
+
+    <input type="file" id="fileInputYanak">
+<img id="previewYanak" style="display:none;" />
+
+<input type="file" id="fileInputOnden">
+<img id="previewOnden" style="display:none;" />
+
+<button id="analyzeBtn">Analiz Et</button>
+
+<div id="result"></div>
+<div id="icerik-onerileri"></div>
+<div id="urun-onerileri"></div>
+
+
+<input type="text" id="aramaKutusu" placeholder="Ürün adı girin...">
+<button onclick="urunAra()">Ara</button>
+
+<div id="sonucAlani"></div>
+
+<script>
+async function urunAra() {
+  const urunAdi = document.getElementById("aramaKutusu").value.trim();
+  const sonucAlani = document.getElementById("sonucAlani");
+  sonucAlani.innerHTML = "Aranıyor...";
+
+  if (!urunAdi) {
+    sonucAlani.innerHTML = "Lütfen ürün adı giriniz.";
+    return;
+  }
+
+  try {
+    const response = await fetch("/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ urun_adi: urunAdi })
+    });
+
+    if (response.status === 404) {
+      sonucAlani.innerHTML = "Ürün bulunamadı.";
+      return;
+    }
+
+    if (!response.ok) {
+      sonucAlani.innerHTML = "Bir hata oluştu.";
+      return;
+    }
+
+    const urun_verileri = await response.json();
+
+    // İçerikleri listele
+    let html = `<h3>${urun_verileri.urun_adi}</h3><ul>`;
+    urun_verileri.icerikler.forEach(icerik => {
+      html += `<li>${icerik}</li>`;
+    });
+    html += "</ul>";
+
+    sonucAlani.innerHTML = html;
+
+  } catch (error) {
+    sonucAlani.innerHTML = "Sunucuya bağlanırken hata oluştu.";
+  }
+}
+</script>
+
+
+
+
+
+
+
+    
+
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
+    
+    <!-- Ana JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
