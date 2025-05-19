@@ -1,12 +1,24 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
 import numpy as np
 import json
 from collections import Counter
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
+app.secret_key = 'bu_cok_gizli_ve_uzun_bir_anahtar_olmalı_1234!'  # Session için gizli anahtar
+
+# Firebase setup (sadece bir kez başlatılır)
+if not firebase_admin._apps:
+    cred = credentials.Certificate("bitirme-e59ed-firebase-adminsdk-fbsvc-d8e9916e10.json")  # 🔸 dosya yolu senin .json dosyana göre olmalı
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://bitirme-e59ed-default-rtdb.firebaseio.com/'
+    })
+
+db = firestore.client()
 
 # 🔹 Modeli yükle
 model = tf.keras.models.load_model('skin_type_classifier7.h5')
@@ -15,9 +27,8 @@ model = tf.keras.models.load_model('skin_type_classifier7.h5')
 with open("static/veriler/icerikler.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-with open("static/veriler/urun_verileri.json", "r", encoding="utf-8") as f:
+with open("static/veriler/birlesik_veri.json", "r", encoding="utf-8") as f:
     urun_verileri = json.load(f)    
-
 
 # 🔹 Eşanlamlılar ve gruplar
 esanlamlilar = {
@@ -75,10 +86,86 @@ def tahmin_yap(img):
         return "yağlı"
     else:
         return "bilinmeyen"
+    
+def get_user_by_email(email):
+    ref = db.reference('kullanicilar')
+    kullanicilar = ref.get()
+    
+    if not kullanicilar:
+        return None, None
+    
+    for uid, user_data in kullanicilar.items():
+        if user_data.get('email') == email:
+            return uid, user_data
+    
+    return None, None
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/sessionLogin', methods=['POST'])
+def session_login():
+    id_token = request.json.get('idToken')
+    try:
+        decoded_token = firebase_admin.auth.verify_id_token(id_token)
+        uid = decoded_token['uid']
+        session['uid'] = uid
+        return jsonify({"status": "success"})
+    except:
+        return jsonify({"status": "error"}), 401
+
+
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    
+    # Burada Firebase Authentication ile şifre doğrulaması yapman gerekir.
+    # Şimdilik sadece email kontrolü yapıyoruz.
+    
+    uid, user_data = get_user_by_email(email)
+    if uid is None:
+        return "Kullanıcı bulunamadı veya şifre yanlış", 401
+    
+    session['uid'] = uid
+    return redirect(url_for('bakim'))
+
+@app.route('/bakim')
+def bakim():
+    if 'uid' not in session:
+        return redirect(url_for('index'))
+    
+    uid = session['uid']
+    
+    # Kullanıcı bilgilerini Firebase Realtime DB'den al
+    ref = db.reference(f'kullanicilar/{uid}')
+    user_data = ref.get()
+    
+    if user_data is None:
+        return "Kullanıcı verisi bulunamadı.", 404
+    
+    # Örneğin cilt tipini ve önerilen ürünleri kullanıcıya göster
+    cilt_tipi = user_data.get('cilt_tipi', 'Bilinmiyor')
+    onerilen_urunler = user_data.get('onerilen_urunler', [])
+    
+    return render_template('bakim.html', cilt_tipi=cilt_tipi, onerilen_urunler=onerilen_urunler)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
 @app.route("/search", methods=["POST"])
 def search_product():
@@ -143,6 +230,8 @@ def predict():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

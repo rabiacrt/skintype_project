@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kayıt Ol - Cilt Analizim</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <h2>Kayıt Ol</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <input type="password" id="confirmPassword" placeholder="Şifre Tekrar" />
+    <button id="signupBtn">Kayıt Ol</button>
+    <p>Zaten hesabınız var mı? <a href="/login">Giriş Yap</a></p>
+
+   <div id="signupError">
+      <div id="errorBox">
+        <span id="errorIcon">⚠</span>
+        <span id="errorMessage"></span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyB7rtQ4UfqrbWTSZiGsGtIJP_JmVi-VP3Q",
+    authDomain: "bitirme-e59ed.firebaseapp.com",
+    projectId: "bitirme-e59ed",
+    storageBucket: "bitirme-e59ed.firebasestorage.app",
+    messagingSenderId: "1050424184852",
+    appId: "1:1050424184852:web:eec13235993c41bba51701",
+    measurementId: "G-536RM71HM0"
+      // diğer config değerleri...
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+   // Hata gösterme fonksiyonu
+    function showError(message) {
+      const errorDiv = document.getElementById('signupError');
+      const messageSpan = document.getElementById('errorMessage');
+      errorDiv.style.display = 'block';
+      errorDiv.style.animation = 'none';
+      void errorDiv.offsetWidth; // reflow tetiklenir
+      errorDiv.style.animation = null;
+      messageSpan.textContent = message;
+    }
+
+    // Kayıt işlemi
+    const signupBtn = document.getElementById('signupBtn');
+    signupBtn.addEventListener('click', () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+  // Alan boş mu kontrolü
+  if (!email || !password || !confirmPassword) {
+   showError("Lütfen e-posta ve şifre alanlarını doldurun.");
+    return;
+  }
+
+  // E-posta format kontrolü
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showError("Lütfen geçerli bir e-posta adresi girin.");
+    return;
+  }
+
+  // Şifreler aynı mı?
+  if (password !== confirmPassword) {
+    showError("Şifreler eşleşmiyor.");
+    return;
+  }
+  
+
+
+
+  // Firebase ile kayıt
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.href = "/login";
+    })
+      .catch(error => {
+    let message;
+    switch (error.code) {
+      case 'auth/invalid-email':
+        message = "Geçerli bir e-posta adresi girin.";
+        break;
+      case 'auth/email-already-in-use':
+        message = "Bu e-posta adresi zaten kullanılıyor.";
+        break;
+      case 'auth/weak-password':
+        message = "Şifre en az 6 karakter olmalıdır.";
+        break;
+      default:
+        message = "Bir hata oluştu: " + error.message;
+    }
+    showError(message);
+    });
+});
+
+  </script>
+</body>
+</html>

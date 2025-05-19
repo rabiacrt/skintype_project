@@ -11,12 +11,99 @@ body {
     margin: 0;
     padding: 15px;
 }
-
-h1 {
+/* --- container: login, signup ve index için ortak yapı --- */
+.container {
+  max-width: 400px;
+  margin: 5vh auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h1,h2 {
     color: #6a6868;
     margin-bottom: 5px;
     font-size: 1.8em;
+    text-align: center;
+    margin-bottom: 1rem;
     
+}
+
+nav a {
+    padding: 8px 16px;
+    border: 1.5px solid #f726b5;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+/* --- Input alanları --- */
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 10px 8px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+nav a:hover {
+    background-color: #f726b5;
+    color: white;
+}
+ #loginError {
+      display: none;
+      margin-top: 15px;
+    }
+
+/* Uyarı kutusu için stil */
+#errorBox {
+  display: flex;
+  align-items: center;
+  background-color: #ffe6e6;
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  animation: shake 0.4s ease;
+}
+
+/* Uyarı ikonu */
+#errorIcon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Shake animasyonu */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+/* Login hatası için aynı görünüm */
+#errorBoxLogin {
+  display: flex;
+  align-items: center;
+  background-color: #ffe6e6;
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  animation: shake 0.4s ease;
+}
+
+#errorIconLogin {
+  margin-right: 10px;
+  font-size: 18px;
 }
 
 #fileInput {

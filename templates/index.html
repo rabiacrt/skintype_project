@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cilt Tipi Analizi</title>
+    
+  <!-- ✅ Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
@@ -12,6 +18,12 @@
 
 </head>
 <body>
+
+ <nav style="text-align:right; padding:10px 20px;">
+        <a href="/login" style="margin-right: 15px; text-decoration:none; color:#fff; font-weight:bold;">Giriş Yap</a>
+        <a href="/signup" style="text-decoration:none; color: #fff;; font-weight:bold;">Kayıt Ol</a>
+    </nav>
+
     <h1>Cilt Analizim</h1>
 
     <div class="instructions">
@@ -62,8 +74,8 @@
 <button id="analyzeBtn">Analiz Et</button>
 
 <div id="result"></div>
-<div id="icerik-onerileri"></div>
-<div id="urun-onerileri"></div>
+<div id="icerik-onerileri"  style="display:none;"></div>
+<div id="urun-onerileri"  style="display:none;"></div>
 
 
 <input type="text" id="aramaKutusu" placeholder="Ürün adı girin...">
