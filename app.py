@@ -27,8 +27,7 @@ model = tf.keras.models.load_model('skin_type_classifier7.h5')
 with open("static/veriler/icerikler.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-with open("static/veriler/birlesik_veri.json", "r", encoding="utf-8") as f:
-    urun_verileri = json.load(f)    
+   
 
 # 🔹 Eşanlamlılar ve gruplar
 esanlamlilar = {

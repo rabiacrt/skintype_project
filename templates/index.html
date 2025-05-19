@@ -78,65 +78,12 @@
 <div id="urun-onerileri"  style="display:none;"></div>
 
 
-<input type="text" id="aramaKutusu" placeholder="Ürün adı girin...">
-<button onclick="urunAra()">Ara</button>
-
 <div id="sonucAlani"></div>
 
-<script>
-async function urunAra() {
-  const urunAdi = document.getElementById("aramaKutusu").value.trim();
-  const sonucAlani = document.getElementById("sonucAlani");
-  sonucAlani.innerHTML = "Aranıyor...";
-
-  if (!urunAdi) {
-    sonucAlani.innerHTML = "Lütfen ürün adı giriniz.";
-    return;
-  }
-
-  try {
-    const response = await fetch("/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ urun_adi: urunAdi })
-    });
-
-    if (response.status === 404) {
-      sonucAlani.innerHTML = "Ürün bulunamadı.";
-      return;
-    }
-
-    if (!response.ok) {
-      sonucAlani.innerHTML = "Bir hata oluştu.";
-      return;
-    }
-
-    const urun_verileri = await response.json();
-
-    // İçerikleri listele
-    let html = `<h3>${urun_verileri.urun_adi}</h3><ul>`;
-    urun_verileri.icerikler.forEach(icerik => {
-      html += `<li>${icerik}</li>`;
-    });
-    html += "</ul>";
-
-    sonucAlani.innerHTML = html;
-
-  } catch (error) {
-    sonucAlani.innerHTML = "Sunucuya bağlanırken hata oluştu.";
-  }
-}
-</script>
+<p id="urunSayisi"></p>
 
 
 
-
-
-
-
-    
 
     <!-- TensorFlow.js -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
