@@ -94,27 +94,120 @@ analyzeBtn.addEventListener('click', async () => {
     console.log("Cilt tipi (filtreleme için):", ciltTipi);
 
     fetch('static/veriler/icerikler.json')
-      .then(res => res.json())
-      .then(data => {
-        const filtrelenmis = data.filter(item => {
-          const jsonTip = item.cilt_tipi?.toLowerCase().trim();
-          return jsonTip?.includes(ciltTipi);
-        });
+    .then(res => res.json())
+    .then(data => {
+      const zararliIcerikler = [
+        "Methylisothiazolinone",
+        "Methylchloroisothiazolinone",
+        "Butylated Hydroxyanisole (BHA)",
+        "Butylated Hydroxytoluene (BHT)",
+        "Formaldehyde-releasing Preservatives",
+        "Imidazolidinyl Urea",
+        "Diazolidinyl Urea",
+        "Sunscreen Chemicals",
+        "Parabens (e.g., Methylparaben)",
+        "Propylparaben",
+        "Phthalates (e.g., Dibutyl Phthalate)",
+        "Diethyl Phthalate",
+        "Lead (in certain color additives)",
+        "Mercury (in some skin-lightening products)",
+        "Coal tar (found in some hair dyes)",
+        "Fragrance",
+        "Triclosan",
+        "Talc",
+        "Mineral oils",
+        "Ethanolamines (MEA, DEA, TEA)",
+        "Microplastics",
+        "Nanoparticles",
+        "Hydroquinone",
+        "Oxybenzone",
+        "Sodium Lauryl Sulfate (SLS)",
+        "Toluene",
+        "Resorcinol",
+        "Polyethylene Glycols (PEGs)",
+        "Formaldehyde",
+        "Retinyl Palmitate (Vitamin A)",
+        "Artificial fragrance chemicals",
+        "Ammonia",
+        "Fragrance",
+        "Heavy Oils",
+        "Coconut Oil",
+        "Sulfates (Sodium Lauryl Sulfate)"
+        
+        
+      ].map(item => item.toLowerCase());
+  
+    // Puan hesapla
+    data.forEach(urun => {
+      const icerik = urun.icerik?.toLowerCase() || "";
+      let puan = 100;
 
-        urunContainer.innerHTML = filtrelenmis.length > 0
-          ? `<h2>${label} için Önerilen Ürünler</h2>`
-          : `<h2>Önerilen ürün bulunamadı.</h2>`;
-
-        filtrelenmis.forEach(urun => {
-          const div = document.createElement('div');
-          div.className = 'kart';
-          div.innerHTML = `
-            <h3>${urun.urun_adi}</h3>
-            <p><strong>Ürün Tipi:</strong> ${urun.urun || 'Belirtilmemiş'}</p>
-          `;
-          urunContainer.appendChild(div);
-        });
+      zararliIcerikler.forEach(zararlilar => {
+        if (icerik.includes(zararlilar)) {
+          puan -= 5;
+        }
       });
+
+      urun.puan = puan;
+    });
+
+    // Kategorilere göre grupla
+    const kategorilereGore = {};
+    data.forEach(urun => {
+      const kategori = urun.urun || 'diğer';
+      if (!kategorilereGore[kategori]) {
+        kategorilereGore[kategori] = [];
+      }
+      kategorilereGore[kategori].push(urun);
+    });
+
+    // DOM'a yazdır
+    urunContainer.innerHTML = `<h2>En İyi ve Daha Az İyi Ürünler</h2>`;
+
+    for (const kategori in kategorilereGore) {
+      const grup = kategorilereGore[kategori];
+      const sirali = grup.sort((a, b) => b.puan - a.puan); // yüksekten düşüğe
+
+      // En iyi 3
+      const enIyi = sirali.slice(0, 3);
+      // En kötü 3
+      const enKotu = sirali.slice(-3).reverse(); // tersten al ki düşük puanlılar yukarıda gözüksün
+
+      const baslik = document.createElement('h3');
+      baslik.textContent = kategori.toUpperCase();
+      urunContainer.appendChild(baslik);
+
+      const iyiBaslik = document.createElement('p');
+      iyiBaslik.textContent = '✅ En İyi 3 Ürün:';
+      urunContainer.appendChild(iyiBaslik);
+
+      enIyi.forEach(urun => {
+        const div = document.createElement('div');
+        div.className = 'kart iyi';
+        div.innerHTML = `
+          <h4>${urun.urun_adi}</h4>
+          <p><strong>Puan:</strong> ${urun.puan}</p>
+         
+        `;
+        urunContainer.appendChild(div);
+      });
+
+      const kotuBaslik = document.createElement('p');
+      kotuBaslik.textContent = '❌ Daha Az İyi 3 Ürün:';
+      urunContainer.appendChild(kotuBaslik);
+
+      enKotu.forEach(urun => {
+        const div = document.createElement('div');
+        div.className = 'kart kotu';
+        div.innerHTML = `
+          <h4>${urun.urun_adi}</h4>
+          <p><strong>Puan:</strong> ${urun.puan}</p>
+          
+        `;
+        urunContainer.appendChild(div);
+      });
+    }
+  });
 
   } catch (error) {
     console.error('Hata:', error);

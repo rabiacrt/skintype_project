@@ -142,4 +142,15 @@ h1 {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
 }
+
+.kart.iyi {
+    border-left: 5px solid green;
+    background-color: #e6ffe6;
+  }
+  
+  .kart.kotu {
+    border-left: 5px solid red;
+    background-color: #ffe6e6;
+  }
+  
   

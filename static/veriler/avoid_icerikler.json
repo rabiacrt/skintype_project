@@ -1,0 +1,107 @@
+{
+  "kuru": {
+    "avoid": [
+      {
+        "ingredient": "Alcohol (Alcohol Denat, Ethanol)",
+        "reason": "Ciltteki doğal nemi buharlaştırarak kuruluğu artırır. Özellikle tonik ve akne ürünlerinde yaygındır.",
+        "common_in": ["tonik", "serum", "akne jeli"]
+      },
+      {
+        "ingredient": "Fragrance (Parfum)",
+        "reason": "Kuru ciltlerde irritasyon ve pullanma riskini artırabilir.",
+        "common_in": ["nemlendirici", "temizleyici", "tonik"]
+      },
+      {
+        "ingredient": "Sulfates (Sodium Lauryl Sulfate)",
+        "reason": "Cildi aşırı temizleyip koruyucu bariyeri zayıflatır.",
+        "common_in": ["yüz yıkama jeli", "temizleyici"]
+      },
+      {
+        "ingredient": "Clay-based (Kil bazlı maddeler)",
+        "reason": "Yağı emdiği için kuru ciltlerde gerginlik ve çatlamaya yol açabilir.",
+        "common_in": ["maskeler", "temizleyici"]
+      }
+    ]
+  },
+  "yağlı": {
+    "avoid": [
+      {
+        "ingredient": "Coconut Oil",
+        "reason": "Komodojeniktir (gözenek tıkayıcı), sivilceye eğilimli yağlı ciltlerde akne riskini artırabilir.",
+        "common_in": ["nemlendirici", "temizleyici"]
+      },
+      {
+        "ingredient": "Petrolatum / Mineral Oil",
+        "reason": "Gözenekleri tıkayabilir, parlama ve sivilceye neden olabilir.",
+        "common_in": ["krem", "merhem", "balm"]
+      },
+      {
+        "ingredient": "Silicones (Dimethicone, Cyclopentasiloxane)",
+        "reason": "Gözenekleri kapatabilir, uzun süreli kullanımda akne oluşumuna neden olabilir.",
+        "common_in": ["makyaj bazı", "fondöten"]
+      },
+      {
+        "ingredient": "Heavy Butters (Shea Butter, Cocoa Butter)",
+        "reason": "Yoğun yapılı olduğu için yağlı ciltlerde gözenekleri tıkayabilir.",
+        "common_in": ["gece kremi", "vücut losyonu"]
+      }
+    ]
+  },
+  "hassas": {
+    "avoid": [
+      {
+        "ingredient": "Essential Oils (Lavender, Peppermint, Citrus)",
+        "reason": "Doğal olmalarına rağmen hassas ciltlerde alerji ve tahrişe neden olabilir.",
+        "common_in": ["tonik", "doğal nemlendirici"]
+      },
+      {
+        "ingredient": "Fragrance (Parfum)",
+        "reason": "Hassas ciltlerde en yaygın tahriş edici bileşendir.",
+        "common_in": ["her türlü ürün"]
+      },
+      {
+        "ingredient": "Alcohol",
+        "reason": "Cildi yakabilir, kızarıklık ve yanma yapabilir.",
+        "common_in": ["tonik", "akne ürünleri"]
+      },
+      {
+        "ingredient": "Exfoliating Acids (Glycolic Acid, Lactic Acid)",
+        "reason": "Hassas cilt bariyerini inceltebilir, kızarıklık ve batma hissi oluşturabilir.",
+        "common_in": ["serum", "tonik", "peeling"]
+      }
+    ]
+  },
+  "karma": {
+    "avoid": [
+      {
+        "ingredient": "Harsh Exfoliants (Physical scrubs with walnut shell, apricot seed)",
+        "reason": "Yağlı bölgeleri tahriş ederken kuru bölgeleri daha da kurutabilir.",
+        "common_in": ["peeling", "scrub"]
+      },
+      {
+        "ingredient": "Alcohol",
+        "reason": "Yağlı bölgelere iyi gelse de kuru bölgelerde pullanma ve gerginliğe yol açar.",
+        "common_in": ["tonik", "akne losyonları"]
+      },
+      {
+        "ingredient": "Heavy Oils",
+        "reason": "Yağlı bölgelerde parlama yapabilir, kuru bölgelere de ağır gelebilir.",
+        "common_in": ["krem", "makyaj temizleyici"]
+      }
+    ]
+  },
+  "normal": {
+    "avoid": [
+      {
+        "ingredient": "Fragrance",
+        "reason": "Cilt sorunu olmasa da gereksiz irritan içeriktir, uzun vadede alerji riski taşır.",
+        "common_in": ["her türlü ürün"]
+      },
+      {
+        "ingredient": "Alcohol",
+        "reason": "Cildi zamanla kurutabilir, pH dengesini bozabilir.",
+        "common_in": ["tonik", "akne ürünleri"]
+      }
+    ]
+  }
+}
