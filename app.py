@@ -134,27 +134,9 @@ def login_post():
         return "Kullanıcı bulunamadı veya şifre yanlış", 401
     
     session['uid'] = uid
-    return redirect(url_for('bakim'))
+    return redirect(url_for(''))
 
-@app.route('/bakim')
-def bakim():
-    if 'uid' not in session:
-        return redirect(url_for('index'))
-    
-    uid = session['uid']
-    
-    # Kullanıcı bilgilerini Firebase Realtime DB'den al
-    ref = db.reference(f'kullanicilar/{uid}')
-    user_data = ref.get()
-    
-    if user_data is None:
-        return "Kullanıcı verisi bulunamadı.", 404
-    
-    # Örneğin cilt tipini ve önerilen ürünleri kullanıcıya göster
-    cilt_tipi = user_data.get('cilt_tipi', 'Bilinmiyor')
-    onerilen_urunler = user_data.get('onerilen_urunler', [])
-    
-    return render_template('bakim.html', cilt_tipi=cilt_tipi, onerilen_urunler=onerilen_urunler)
+
 
 @app.route('/logout')
 def logout():

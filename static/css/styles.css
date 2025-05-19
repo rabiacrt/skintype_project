@@ -132,7 +132,7 @@ nav a:hover {
     display: none;
 }
 
-#analyzeBtn {
+#analyzeBtn, #logoutBtn, #viewResultsBtn{
     background: #5c5c5c;
     color: white;
     border: none;
@@ -144,10 +144,14 @@ nav a:hover {
     transition: background 0.3s, transform 0.2s;
 }
 
-#analyzeBtn:hover {
+
+#analyzeBtn:hover,
+#logoutBtn:hover,
+#viewResultsBtn:hover {
     background: #d1b9e6;
     transform: scale(1.05);
 }
+
 
 #result {
     margin-top: 20px;

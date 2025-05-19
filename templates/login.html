@@ -16,7 +16,7 @@
     <button id="loginBtn">Giriş Yap</button>
     <p>Hesabınız yok mu? <a href="/signup">Kayıt Ol</a></p>
 
-    <!-- Hata kutusu -->
+     <!-- Hata kutusu -->
     <div id="loginError">
       <div id="errorBox">
         <span id="errorIcon">⚠</span>
@@ -24,89 +24,79 @@
       </div>
     </div>
   </div>
-
   <script>
+    // Firebase yapılandırmanızı buraya ekleyin
     const firebaseConfig = {
-      apiKey: "AIzaSyB7rtQ4UfqrbWTSZiGsGtIJP_JmVi-VP3Q",
-      authDomain: "bitirme-e59ed.firebaseapp.com",
-      projectId: "bitirme-e59ed",
-      storageBucket: "bitirme-e59ed.firebasestorage.app",
-      messagingSenderId: "1050424184852",
-      appId: "1:1050424184852:web:eec13235993c41bba51701",
-      measurementId: "G-536RM71HM0"
+    apiKey: "AIzaSyB7rtQ4UfqrbWTSZiGsGtIJP_JmVi-VP3Q",
+    authDomain: "bitirme-e59ed.firebaseapp.com",
+    projectId: "bitirme-e59ed",
+    storageBucket: "bitirme-e59ed.firebasestorage.app",
+    messagingSenderId: "1050424184852",
+    appId: "1:1050424184852:web:eec13235993c41bba51701",
+    measurementId: "G-536RM71HM0"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-
+ // Hata gösterme
     function showError(message) {
       const errorDiv = document.getElementById('loginError');
       const messageSpan = document.getElementById('errorMessage');
       errorDiv.style.display = 'block';
       errorDiv.style.animation = 'none';
-      void errorDiv.offsetWidth;
+      void errorDiv.offsetWidth; // reflow için
       errorDiv.style.animation = null;
       messageSpan.textContent = message;
     }
 
+    // Giriş işlemi
     const loginBtn = document.getElementById('loginBtn');
     loginBtn.addEventListener('click', () => {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
 
-      if (!email || !password) {
-        showError("Lütfen e-posta ve şifre alanlarını doldurun.");
-        return;
-      }
+  // Alan boş mu kontrolü
+  if (!email || !password) {
+    showError("Lütfen e-posta ve şifre alanlarını doldurun.");
+    return;
+  }
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showError("Geçerli bir e-posta adresi girin.");
-        return;
-      }
+  // E-posta format kontrolü
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showError("Geçerli bir e-posta adresi girin.");
+    return;
+  }
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          return userCredential.user.getIdToken();
-        })
-        .then((idToken) => {
-          // idToken'ı backend'e gönder
-          return fetch('/sessionLogin', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ idToken: idToken })
-          });
-        })
-        .then((res) => {
-          if (res.ok) {
-            window.location.href = "/bakim";
-          } else {
-            showError("Oturum başlatılamadı. Lütfen tekrar deneyin.");
-          }
-        })
-        .catch((error) => {
-          let message;
-          switch (error.code) {
-            case 'auth/invalid-email':
-              message = "Geçerli bir e-posta adresi girin.";
-              break;
-            case 'auth/user-not-found':
-              message = "Kullanıcı bulunamadı. Lütfen kayıt olun.";
-              break;
-            case 'auth/wrong-password':
-              message = "E-posta ya da şifre hatalı.";
-              break;
-            case 'auth/invalid-login-credentials':
-              message = "Geçersiz giriş bilgileri. Lütfen tekrar deneyin.";
-              break;
-            default:
-              message = "Bir hata oluştu: " + error.message;
-          }
-          showError(message);
-        });
+
+
+  // Firebase ile giriş
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      // Giriş başarılıysa index sayfasına yönlendir
+      window.location.href = "/";
+    })
+     .catch(error => {
+    let message;
+    switch (error.code) {
+      case 'auth/invalid-email':
+        message = "Geçerli bir e-posta adresi girin.";
+        break;
+      case 'auth/user-not-found':
+        message = "Kullanıcı bulunamadı. Lütfen kayıt olun.";
+        break;
+      case 'auth/wrong-password':
+        message = "E-posta ya da şifre hatalı.";
+        break;
+      case 'auth/invalid-login-credentials':
+        message = "Geçersiz giriş bilgileri. Lütfen tekrar deneyin.";
+        break;
+      default:
+        message = "Bir hata oluştu: " + error.message;
+    }
+    showError(message);
     });
+});
+
   </script>
 </body>
 </html>
