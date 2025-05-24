@@ -1,7 +1,14 @@
+a {
+  text-decoration: none;
+  color: #000;
+}
+p{
+  margin: 0px;
+  padding: 0px;
+}
 body {
     font-family: "Overlock", sans-serif;
-    font-size: 2.2em;
-    background: #dcc4f4;
+    background: #6c8a70;
     color: #333;
     display: flex;
     flex-direction: column;
@@ -13,29 +20,223 @@ body {
 }
 /* --- container: login, signup ve index için ortak yapı --- */
 .container {
-  max-width: 400px;
-  margin: 5vh auto;
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   min-height: 60vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  height: 95vh; /* Tüm ekran boyunu kapla */
+  overflow: hidden; 
+
 }
 h1,h2 {
     color: #6a6868;
-    margin-bottom: 5px;
     font-size: 1.8em;
     text-align: center;
-    margin-bottom: 1rem;
     
 }
+.side-bar{
+  height: 95vh; /* Sabit yüksekliği koru */
+  overflow: hidden; /* Kaymasın */
+  padding: 10px;
+  background-color: #d3d4ce;
+  border-radius: 10px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.icon{
+  width: 30px;
+  height: 30px;
+}
+.btn{
+  background-color: #fff;
+  border: 2px solid #00000014;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 15px;
+  transition: background-color .1s ease;
+  white-space: nowrap;
+  color: black;
+  text-align: center;
+  margin-block: 10px;
+}
+#logoutBtn {
+  display: none;
+}
+.side-style{
+  display: flex;
+  justify-content:left;
+  align-items: center;
+  gap: 10px;
+  margin-block: 10px;
+}
+.main{
+  width: 90%;
+  height: 95vh;
+  overflow-y: scroll;
+ 
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #aec2b9;
+  background-image: url('/static/images/pin6.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding-block: 340px;
+}
+.mainGeneral{
+  position: relative;
+  width: 100%;
+  height: 17vh;
+  overflow: hidden;
+  margin-bottom: 40px;
 
+}
+.mainFirstpart{
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Playfair Display', serif;
+  color: #1f4037;
+}
+.maintext{
+  font-size: 4.5rem;
+  font-weight: bold;
+}
+.maintext-2 {
+  font-size: 4rem;
+  color: #6bbf59; /* pastel yeşil */
+  font-weight: bold;
+  letter-spacing: 1px;
+
+}
+.subtext{
+  font-size: 1.8rem;
+  color: #3f5f4b; /* daha açık bir yeşil tonu veya pastel gri yeşil */
+  margin-top: 20px;
+  font-weight: normal;
+  font-family: 'Lato', sans-serif;
+}
+
+
+.download-image-container{
+  margin-block: 50px;
+}
+.download-subtitle{
+  text-align: center;
+}
+
+.images{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-block: 40px;
+  gap: 40px;
+}
+.file-btn {
+  margin-bottom: 30px ;
+  
+}
+input[type="file"]::file-selector-button {
+  padding: 20px 25px;
+  background-color: #6c8a70;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #96af99;
+}
+
+input[type="file"] {
+  font-family: sans-serif;
+}
+#previewYanak, #previewOnden {
+  width: 600px;
+  height: 600px;
+}
+#analyzeBtn,  #viewResultsBtn {
+  background-color: #6c8a70;
+  color: white;
+  border: none;
+  padding: 25px 35px;
+  border-radius: 6px; 
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ResultsContainer {
+}
+
+.analyzeContainer {
+  position: relative;
+  width: 100%;
+  height: 17vh;
+  overflow: hidden;
+  margin-bottom: 40px;
+  
+}
+.analyzeStyle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #aec2b9;
+  background-image: url('/static/images/analiz.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding-block: 340px;
+
+}
+.analyzeImg {
+  top: 0px;
+  left: 0px;
+  width: 600px;
+  height: 550px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.analyzeText{
+  text-align: center;
+  position: absolute;
+  top: 44%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  font-family: 'Playfair Display', serif;
+  color: #1f4037;
+}
+
+.logo-container{
+  margin: 0 auto;
+  border-radius: 10px;
+}
+.logo {
+  width: 100px;
+  height: 50px;
+  border-radius: 8px;
+  
+}
 nav a {
-    padding: 8px 16px;
-    border: 1.5px solid #f726b5;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -51,7 +252,6 @@ input[type="text"], input[type="email"], input[type="password"] {
   box-sizing: border-box;
 }
 nav a:hover {
-    background-color: #f726b5;
     color: white;
 }
  #loginError {
@@ -132,7 +332,7 @@ nav a:hover {
     display: none;
 }
 
-#analyzeBtn, #logoutBtn, #viewResultsBtn{
+#logoutBtn{
     background: #5c5c5c;
     color: white;
     border: none;
@@ -156,17 +356,16 @@ nav a:hover {
 #result {
     margin-top: 20px;
     font-size: 1.2em;
-    padding: 10px 20px;
+    padding: 20px 40px;
     border-radius: 8px;
-    background: #e6def2;
+    background: #d3d4ce;
     color: #8f8e8e;
-    min-width: 200px;
     font-family: "Overlock", sans-serif;
 }
 
 .instructions {
     font-family: "Overlock", sans-serif;
-    background-color: #e6def2;
+    background-color: #fff;
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -175,12 +374,20 @@ nav a:hover {
     font-size: 18px;
     
 }
+.instructions ul {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  flex-direction: row;
+  row-gap: 20px;
+  column-gap: 30px;
+}
 
 .instructions h2 {
     font-family: "Overlock", sans-serif;
     margin-bottom: 10px;
     font-size: 30px;
     color: #5a5858;
+    border-bottom: 2px solid #5a5858;
 }
 
 .instructions ul {
@@ -191,9 +398,30 @@ nav a:hover {
 
 .instructions li {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     margin-bottom: 15px;
+    padding-inline: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+.instructions li:hover {
+    background-color: #f0f0f5;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+.instructions li img{
+  margin: 0 auto;
+  margin-block: 10px;
+}
+.instructions li div{
+  text-align: center;
+}
+.instructions li span {
+    margin-top: 10px;
+}
+
 
 .instructions .icon {
     font-size: 24px;
@@ -202,10 +430,8 @@ nav a:hover {
 }
 
 .icon-img {
-    width: 52px;
-    height: 52px;
-    margin-right: 15px;
-    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
 }
 
 #icerik-onerileri {

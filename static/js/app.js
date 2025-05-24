@@ -35,6 +35,31 @@ const analyzeBtn = document.getElementById('analyzeBtn');
 const resultDiv = document.getElementById('result');
 const container = document.getElementById('icerik-onerileri');
 const urunContainer = document.getElementById('urun-onerileri');
+const signIn = document.getElementById("signIn");
+const signUp = document.getElementById("signUp");
+const logOut = document.getElementById('logoutBtn')
+
+signIn.addEventListener("click", e => {
+ 
+  console.log("Giriş yapılıyor...");
+
+  logOut.style.display = "block";
+  signIn.style.display = "none";
+  signUp.style.display = "none";
+  
+
+})
+
+signUp.addEventListener("click", e => {
+  e.preventDefault();
+  console.log("Giriş yapılıyor...");
+
+  logOut.style.display = "block";
+  signUp.style.display = "none";
+  signIn.style.display = "none";
+  
+
+})
 
 // 🔍 Görsel ön izleme
 function handlePreview(input, previewElement) {
@@ -199,7 +224,7 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
   }
 });
 
-document.getElementById('logoutBtn').addEventListener('click', () => {
+logOut.addEventListener('click', () => {
   auth.signOut().then(() => {
     alert("Çıkış yapıldı. Ana sayfaya yönlendiriliyorsunuz.");
     window.location.href = "/"; // Varsa giriş sayfasına yönlendir

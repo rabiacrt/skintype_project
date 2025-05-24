@@ -19,72 +19,124 @@
 </head>
 <body>
 
- <nav style="text-align:right; padding:10px 20px;">
-        <a href="/login" style="margin-right: 15px; text-decoration:none; color:#fff; font-weight:bold;">Giriş Yap</a>
-        <a href="/signup" style="text-decoration:none; color: #fff;; font-weight:bold;">Kayıt Ol</a>
-    </nav>
+    <div class="container">
+        <div class="side-bar">
+            <div class="logo-container">
+                <img src="/static/images/logo2.png" alt="logo" class="logo" >
+                <a href="/" class="side-style">
+                    <img src="/static/images/home.png" alt="home" class="icon">
+                    <div>Anasayfa</div>
+                </a>
+                <a href="/" class="side-style">
+                    <img src="/static/images/search.png" alt="search" class="icon">
+                    <div>Kontrol Et</div>
+                </a>
+            </div>
+            <div>
+                <a href="/login" class="btn " id="signIn">Giriş yap</a>
+                <a href="/signup" class="btn" id="signUp">kayıt ol</a>
+                <a href="/" class="side-style">
+                    <img src="/static/images/settings.png" alt="settings" class="icon">
+                    <div>Ayarlar</div>
+                </a>
+                <button id="logoutBtn" class="btn">Çıkış Yap</button>
+            </div>
+        </div>
+        <div class="main">
 
-    <h1>Cilt Analizim</h1>
-
-    <div class="instructions">
-        <h2>Analizde kullanılan selfie için bazı talimatlar:</h2>
-        <ul>
-            <li>
-                <img src="{{ url_for('static', filename='images/glasses.png') }}" alt="Gözlük" class="icon-img">
-                <div>
-                    <strong>Gözlüklerinizi çıkarın. </strong><br>
-                    Gözlükler, yüz hatlarınızı tam olarak göstermeyebilir. Lütfen gözlüğünüzü çıkarın ve yüzünüzün temiz olduğundan emin olun. Bu, analiz için daha doğru sonuçlar sağlar.
+            <div class="header mainGeneral">
+                <div class="mainFirstpart">
+                    <span class="maintext">Cildine yakışanı</span><br>
+                    <span class="maintext-2">keşfet.</span>
+                    <p class="subtext">Cilt tipine özel analiz ve içerik önerileri burada</p>
                 </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/makeup.png') }}" alt="Makyaj" class="icon-img">
-                <div>
-                    <strong>Makyajsız olması daha iyi olacaktır. </strong><br>
-                    Makyaj, cilt dokunuzu ve tonunuzu örtebilir. Cildinizin doğal hâlini göstermeniz, analizimizin daha isabetli olmasına yardımcı olur. Lütfen yüzünüzde makyaj olmadığından emin olun.
 
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/lightbulb.png') }}" alt="Işık" class="icon-img">
-                <div>
-                    <strong>İyi aydınlatılmış bir ortam seçin.</strong><br>
-                    Doğal ışıkta çekilen fotoğraflar, cilt detaylarını en iyi şekilde gösterir. Işık yüzünüze doğrudan gelecek şekilde konumlanın. Karanlık ya da gölgeli ortamlardan kaçının.
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/face.png') }}" alt="Yüz" class="icon-img">
-                <div>
-                    <strong>Yüzünüzün net göründüğünden emin olun.</strong><br>
-                    Yanak veya T bölgesini içeren bir fotoğraf seçin. Kamera ile aranızdaki mesafe çok yakın veya çok uzak olmamalı.
-
-
-                </div>
-            </li>
-        </ul>
-    </div>
+            </div>
     
-   
+          
+        
+            <div class="instructions">
+                <h2>Analizde kullanılan selfie için bazı talimatlar:</h2>
+                <ul>
+                    <li>
+                        <img src="{{ url_for('static', filename='images/glasses.png') }}" alt="Gözlük" class="icon-img">
+                        <div>
+                            <strong>Gözlüklerinizi çıkarın. </strong><br>
+                            <span>Gözlükler, yüz hatlarınızı tam olarak göstermeyebilir. Lütfen gözlüğünüzü çıkarın ve yüzünüzün temiz olduğundan emin olun. Bu, analiz için daha doğru sonuçlar sağlar.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{{ url_for('static', filename='images/makeup.png') }}" alt="Makyaj" class="icon-img">
+                        <div>
+                            <strong>Makyajsız olması daha iyi olacaktır. </strong><br>
+                            <span>Makyaj, cilt dokunuzu ve tonunuzu örtebilir. Cildinizin doğal hâlini göstermeniz, analizimizin daha isabetli olmasına yardımcı olur. Lütfen yüzünüzde makyaj olmadığından emin olun.</span> 
+        
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{{ url_for('static', filename='images/lightbulb.png') }}" alt="Işık" class="icon-img">
+                        <div>
+                            <strong>İyi aydınlatılmış bir ortam seçin.</strong><br>
+                            <span> Doğal ışıkta çekilen fotoğraflar, cilt detaylarını en iyi şekilde gösterir. Işık yüzünüze doğrudan gelecek şekilde konumlanın. Karanlık ya da gölgeli ortamlardan kaçının.</span> 
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{{ url_for('static', filename='images/face.png') }}" alt="Yüz" class="icon-img">
+                        <div>
+                            <strong>Yüzünüzün net göründüğünden emin olun.</strong><br>
+                            <span> Yanak veya T bölgesini içeren bir fotoğraf seçin. Kamera ile aranızdaki mesafe çok yakın veya çok uzak olmamalı.</span> 
+        
+        
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+           
+        <div class="download-image-container">
+            <h2 class="download-title">Cildini Tanımaya Hazır mısın?</h2>
+            <p class="download-subtitle">Yüzünü ve yan profilden bir yanak görselini yükle. Güzellik seninle başlıyor, biz sadece yol gösteriyoruz.</p>
+            
+            <div class="images">
+                <div>
+                    <input class="file-btn" type="file" id="fileInputYanak">
+                    <img id="previewYanak" style="display:none;" />
+                </div>
+    
+                <div>
+                    <input class="file-btn" type="file" id="fileInputOnden">
+                    <img id="previewOnden" style="display:none;" />
+                </div>
+            </div>
 
-    <input type="file" id="fileInputYanak">
-<img id="previewYanak" style="display:none;" />
+        </div>
+        
+        <div class="ResultsContainer">
+            <h2 class="result-title">Sonuçlara Bakalım</h2>
 
-<input type="file" id="fileInputOnden">
-<img id="previewOnden" style="display:none;" />
+            <div class="analyzeStyle analyzeContainer">
+                <div class="analyzeText">
+                    <button id="analyzeBtn">Analiz Et</button>
+                    <div id="result"></div>      
+                </div>
+            </div>
 
-<button id="analyzeBtn">Analiz Et</button>
-
-<button id="viewResultsBtn">Analiz Sonuçlarım</button>
-<div id="myResultsContainer"></div>
-<button id="logoutBtn">Çıkış Yap</button>
-<div id="result"></div>
-<div id="icerik-onerileri"  ></div>
-<div id="urun-onerileri"  ></div>
-<div id="avoid-icerikler"></div>
-
-<div id="sonucAlani"></div>
-
-<p id="urunSayisi"></p>
-
+            <button id="viewResultsBtn">Analiz Sonuçlarım</button>
+        </div>
+        
+        <div id="myResultsContainer"></div>
+       
+        
+        <div id="icerik-onerileri"  ></div>
+        <div id="urun-onerileri"  ></div>
+        <div id="avoid-icerikler"></div>
+        
+        <div id="sonucAlani"></div>
+        
+        <p id="urunSayisi"></p>
+    
+        </div>    
+        </div>
 
 
 
