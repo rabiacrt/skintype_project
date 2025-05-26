@@ -2,9 +2,16 @@ a {
   text-decoration: none;
   color: #000;
 }
+li{
+  list-style: none;
+}
 p{
   margin: 0px;
   padding: 0px;
+}
+ul {
+  padding: 0;
+  margin: 0;
 }
 body {
     font-family: "Overlock", sans-serif;
@@ -19,7 +26,7 @@ body {
     padding: 15px;
 }
 /* --- container: login, signup ve index için ortak yapı --- */
-.container {
+.container-home {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
@@ -79,11 +86,11 @@ h1,h2 {
   gap: 10px;
   margin-block: 10px;
 }
-.main{
+#main-container{
   width: 90%;
   height: 95vh;
   overflow-y: scroll;
- 
+  overflow-x: hidden;
 }
 .header {
   display: flex;
@@ -225,6 +232,55 @@ input[type="file"] {
   font-family: 'Playfair Display', serif;
   color: #1f4037;
 }
+#viewResultsBtn {
+  display: block;
+  margin: 0 auto;
+}
+
+#icerik-onerileri {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: start;
+  padding: 20px;
+  overflow-x: auto;       /* Yatay scroll */
+  overflow-y: hidden; 
+}
+.urun-tipi-container{
+  border: 2px solid #c6bebe;
+  border-radius: 10px;
+  padding-block: 10px;
+  padding-inline: 25px;
+  background: #fff;
+  min-width: 200px;
+  flex-shrink: 0;  /* kutular küçülmesin */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.urun-tipi {
+
+}
+
+.avoid {
+  background-color: #ec9999;
+  border: 1px solid #d86262;
+  padding: 10px;
+}
+
+.avoid > ul > li{
+  border: 1px solid #783535;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#search-container{
+  width: 90%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
 .logo-container{
   margin: 0 auto;
@@ -254,10 +310,10 @@ input[type="text"], input[type="email"], input[type="password"] {
 nav a:hover {
     color: white;
 }
- #loginError {
-      display: none;
-      margin-top: 15px;
-    }
+#loginError {
+    display: none;
+    margin-top: 15px;
+  }
 
 /* Uyarı kutusu için stil */
 #errorBox {
@@ -434,30 +490,32 @@ nav a:hover {
     height: 70px;
 }
 
-#icerik-onerileri {
-    margin-top: 30px;
-    width: 90%;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-  }
   
-  #icerik-onerileri .kart {
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    background: #f0f0f5;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
+#icerik-onerileri .kart {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f0f0f5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-#urun-onerileri{
+#urun-onerileri > .kart{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  justify-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    background: #f0f0f5;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
+#urun-onerileri > .kart:hover {
+  background-color: #a4cb23;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .kart.iyi {

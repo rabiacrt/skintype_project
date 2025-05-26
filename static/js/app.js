@@ -35,31 +35,34 @@ const analyzeBtn = document.getElementById('analyzeBtn');
 const resultDiv = document.getElementById('result');
 const container = document.getElementById('icerik-onerileri');
 const urunContainer = document.getElementById('urun-onerileri');
+const avoidContainer = document.getElementById('avoid-icerikler');
 const signIn = document.getElementById("signIn");
 const signUp = document.getElementById("signUp");
 const logOut = document.getElementById('logoutBtn')
+const searchBtn = document.getElementById('searchBtn');
+const mainContainer = document.getElementById('main-container');
+const searchContainer = document.getElementById('search-container');
+const homeBtn = document.getElementById('homeBtn');
 
-signIn.addEventListener("click", e => {
- 
-  console.log("Giriş yapılıyor...");
 
-  logOut.style.display = "block";
-  signIn.style.display = "none";
-  signUp.style.display = "none";
-  
 
-})
 
-signUp.addEventListener("click", e => {
-  e.preventDefault();
-  console.log("Giriş yapılıyor...");
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    signIn.style.display = "none";
+    signUp.style.display = "none";
+    logOut.style.display = "block";
+  } else {
+    signIn.style.display = "block";
+    signUp.style.display = "block";
+    logOut.style.display = "none";
+  }
+});
 
-  logOut.style.display = "block";
-  signUp.style.display = "none";
-  signIn.style.display = "none";
-  
+logOut.onclick = () => {
+  firebase.auth().signOut().then(() => location.reload());
+};
 
-})
 
 // 🔍 Görsel ön izleme
 function handlePreview(input, previewElement) {
@@ -153,6 +156,8 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
   const urunTipleri = result.urun_tipleri || {};
   let html = '';
   for (const [urunTipi, data] of Object.entries(urunTipleri)) {
+    html += `<div class="urun-tipi-container">`;
+    html += `<div class="urun-tipi">`;
     html += `<h3>${urunTipi.charAt(0).toUpperCase() + urunTipi.slice(1)} İçin Önerilen İçerikler</h3>`;
 
     if (data.onerilen_icerikler?.length > 0) {
@@ -164,22 +169,28 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
     } else {
       html += '<p>Önerilen içerik bulunamadı.</p>';
     }
+    html += `</div>`;
 
     if (data.icerik_gruplari?.length > 0) {
+      html += `<div class="urun-tipi">`;
       html += '<h4>İçerik Grupları</h4><ul>';
       data.icerik_gruplari.forEach(grup => {
         html += `<li><strong>${grup.grup}</strong> (${grup.adet} içerik)</li>`;
       });
       html += '</ul>';
+      html += `</div>`;
     }
 
     if (data.kacinilmasi_gerekenler?.length > 0) {
+      html += `<div class="urun-tipi">`;
       html += '<h4>Kaçınılması Gereken İçerikler</h4><ul>';
       data.kacinilmasi_gerekenler.forEach(icerik => {
         html += `<li>${icerik}</li>`;
       });
       html += '</ul>';
+      html += `</div>`;
     }
+    html += `</div>`;
   }
   container.innerHTML = html || '<p>İçerik önerisi bulunamadı.</p>';
 
@@ -197,6 +208,23 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
   filtrelenmis.forEach(urun => {
     const div = document.createElement('div');
     div.className = 'kart';
+
+    // Arka plan rengini ürün tipine göre belirle
+    switch (urun.urun?.toLowerCase()) {
+      case 'jel':
+        div.style.backgroundColor = ' #fff'; // Açık mavi
+        break;
+      case 'tonik':
+        div.style.backgroundColor = 'rgb(244, 252, 248)'; // Açık yeşil
+        break;
+      case 'nemlendirici':
+        div.style.backgroundColor = ' #fff'; // Açık pembe
+        break;
+      default:
+        div.style.backgroundColor = '#f5f5f5'; // Belirtilmemiş için gri
+    }
+
+
     div.innerHTML = `
       <h3>${urun.urun_adi}</h3>
       <p><strong>Ürün Tipi:</strong> ${urun.urun || 'Belirtilmemiş'}</p>
@@ -210,19 +238,34 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
 
   if (avoidList.length > 0) {
     const avoidDiv = document.createElement('div');
-    avoidDiv.innerHTML = `<h2 style="margin-top:30px;">${label} Cilt Tipi için Önerilmeyen İçerikler</h2><ul>`;
+    avoidDiv.className = 'avoid';
+    let html = `<h2 style="margin-top:30px;">${label} Cilt Tipi için Önerilmeyen İçerikler</h2>`;
+    html += `<ul>`;
     avoidList.forEach(item => {
-      avoidDiv.innerHTML += `
+      html += `
         <li style="margin-bottom:10px;">
           <strong>${item.ingredient}</strong>: ${item.reason}<br>
           <em>Yaygın bulunduğu ürünler:</em> ${item.common_in.join(', ')}
-        </li>
-      `;
+        </li>`;
     });
-    avoidDiv.innerHTML += '</ul>';
-    urunContainer.appendChild(avoidDiv);
+    html += `</ul>`;
+    avoidDiv.innerHTML = html;
+    avoidContainer.appendChild(avoidDiv);
   }
+
 });
+
+searchBtn.addEventListener('click', () => {
+  mainContainer.style.display = 'none';
+  searchContainer.style.display = 'block';
+
+});
+
+homeBtn.addEventListener('click', () => {
+  mainContainer.style.display = 'block';
+  searchContainer.style.display = 'none';
+});
+
 
 logOut.addEventListener('click', () => {
   auth.signOut().then(() => {
@@ -232,3 +275,4 @@ logOut.addEventListener('click', () => {
     console.error("Çıkış hatası:", error);
   });
 });
+
