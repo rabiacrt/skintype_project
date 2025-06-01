@@ -377,13 +377,13 @@ document.addEventListener("DOMContentLoaded", () => {
         { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
         { with: "Benzoyl Peroxide", reason: "Retinoid'in etkinliğini azaltır; birlikte kullanılmamalı." }
       ],
-      "image": "/static/images/vitaminc.png"
+      "image": "/static/images/retinoids.png"
     },
     "beta-hydroxy acid (bha)": {
       "unusable": [
         { with: "Alpha-Hydroxy Acid (AHA)", reason: "Tahriş ve kuruluk yaratabilir." }
       ],
-      "image": "/static/images/vitaminc.png"
+      "image": "/static/images/bha.png"
     }
   };
 
