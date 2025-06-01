@@ -21,7 +21,7 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 # 🔹 Modeli yükle
-model = tf.keras.models.load_model('skin_type_classifier7.h5')
+model = tf.keras.models.load_model('skin_type_classifier8.h5')
 
 # 🔹 JSON verisini oku
 with open("static/veriler/icerikler.json", "r", encoding="utf-8") as f:

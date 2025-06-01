@@ -32,13 +32,14 @@
                     <div>Kontrol Et</div>
                 </button>
             </div>
-            <div>
-                <a href="/login" class="btn " id="signIn">Giriş yap</a>
-                <a href="/signup" class="btn" id="signUp">kayıt ol</a>
-                <a href="/" class="side-style">
+            <div class="side-buttons">
+
+                <button class="side-style settingsBtn">
                     <img src="/static/images/settings.png" alt="settings" class="icon">
                     <div>Ayarlar</div>
-                </a>
+                </button>
+                <a href="/login" class="btn " id="signIn">Giriş yap</a>
+                <a href="/signup" class="btn" id="signUp">kayıt ol</a>
                 <button id="logoutBtn" class="btn">Çıkış Yap</button>
             </div>
         </div>
@@ -139,10 +140,32 @@
         </div>  
 
         <div id="search-container" style="display: none;">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil porro eaque magni, odit ipsum consectetur. Saepe non blanditiis recusandae fugit architecto voluptas! Dolore corrupti magni vero? Dolorum neque itaque delectus.</p>
-        </div>
+
+            <div class="header-search mainGeneral">
+                <div class="mainFirstpartSearch">
+                    <span class="searchText">İçeriklerin Birlikte Nasıl Davrandığını Görelim</span><br>
+                    <p class="searchSubtext">Cilt ürünlerini birlikte kullanmadan önce, içeriklerin birbirleriyle uyumlu olup olmadığını kontrol et.</p>
+                </div>
+
+            </div>
+
+            <div class="searchInfoText">
+                Bazı cilt bakım içerikleri bir araya geldiğinde etkilerini kaybedebilir ya da cildinde tahrişe, 
+                kuruluğa, hassasiyete yol açabilir. İçerik kombinasyonlarını önceden kontrol etmek, cildin sağlığı ve ürünlerden en iyi 
+                verimi almak için çok önemlidir.
+            </div>
+
+            <input type="text" id="searchInput" placeholder="İçerik ara (örn: vitamin c)">
+            <div id="ingredientList"></div>
+            <div id="ingredientResults"></div>
 
         </div>
+
+        <div class="settings" style="display: none;">
+            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet officia distinctio delectus est dignissimos et. Saepe magni, minima asperiores, velit magnam porro, perspiciatis possimus et iure consectetur quae inventore fugit?</div>
+        </div>
+
+    </div>
 
 
 

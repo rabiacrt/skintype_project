@@ -43,7 +43,8 @@ const searchBtn = document.getElementById('searchBtn');
 const mainContainer = document.getElementById('main-container');
 const searchContainer = document.getElementById('search-container');
 const homeBtn = document.getElementById('homeBtn');
-
+const settingsBtn = document.querySelector('.settingsBtn');
+const settings = document.querySelector('.settings');
 
 
 
@@ -113,10 +114,10 @@ analyzeBtn.addEventListener('click', async () => {
 
     resultDiv.innerHTML = `<strong>Cilt Tipiniz:</strong> ${label}`;
 
-    // 🔒 Sonuçları localStorage'a kaydet (kullanıcı sonra "Sonuçlarım"da görecek)
+    // Sonuçları localStorage'a kaydet (kullanıcı sonra "Sonuçlarım"da görecek)
     localStorage.setItem('sonAnaliz', JSON.stringify({ result, label, ciltTipi }));
 
-    // 🔐 Firebase'e kayıt
+    // Firebase'e kayıt
     if (currentUser) {
       const timestamp = new Date().toISOString();
       const avoidData = await fetch('static/veriler/avoid_icerikler.json').then(res => res.json());
@@ -153,83 +154,164 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
   const { result, ciltTipi, label } = analizData;
 
   // İçerik önerileri
-  const urunTipleri = result.urun_tipleri || {};
-  let html = '';
-  for (const [urunTipi, data] of Object.entries(urunTipleri)) {
-    html += `<div class="urun-tipi-container">`;
-    html += `<div class="urun-tipi">`;
-    html += `<h3>${urunTipi.charAt(0).toUpperCase() + urunTipi.slice(1)} İçin Önerilen İçerikler</h3>`;
+    resultDiv.innerHTML = `<strong>Analiz Sonucu:</strong> ${label}`;
 
-    if (data.onerilen_icerikler?.length > 0) {
-      html += '<ul>';
-      data.onerilen_icerikler.forEach(item => {
-        html += `<li><strong>${item.icerik}</strong> (${item.adet} kez)</li>`;
-      });
-      html += '</ul>';
-    } else {
-      html += '<p>Önerilen içerik bulunamadı.</p>';
-    }
-    html += `</div>`;
-
-    if (data.icerik_gruplari?.length > 0) {
+    // İçerik Önerileri
+    const urunTipleri = result.urun_tipleri || {};
+    let html = '';
+    for (const [urunTipi, data] of Object.entries(urunTipleri)) {
+      html += `<div class="urun-tipi-container">`;
       html += `<div class="urun-tipi">`;
-      html += '<h4>İçerik Grupları</h4><ul>';
-      data.icerik_gruplari.forEach(grup => {
-        html += `<li><strong>${grup.grup}</strong> (${grup.adet} içerik)</li>`;
-      });
-      html += '</ul>';
+      html += `<h3>${urunTipi.charAt(0).toUpperCase() + urunTipi.slice(1)} İçin Önerilen İçerikler</h3>`;
+
+      if (data.onerilen_icerikler.length > 0) {
+        html += '<ul>';
+        data.onerilen_icerikler.forEach(item => {
+          html += `<li><strong>${item.icerik}</strong> (${item.adet} kez)</li>`;
+        });
+        html += '</ul>';
+      } else {
+        html += '<p>Önerilen içerik bulunamadı.</p>';
+      }
+      html += `</div>`;
+
+      if (data.icerik_gruplari.length > 0) {
+        html += `<div class="urun-tipi">`;
+        html += '<h4>İçerik Grupları</h4><ul>';
+        data.icerik_gruplari.forEach(grup => {
+          html += `<li><strong>${grup.grup}</strong> (${grup.adet} içerik)</li>`;
+        });
+        html += '</ul>';
+        html += `</div>`;
+      }
+
+      if (data.kacinilmasi_gerekenler && data.kacinilmasi_gerekenler.length > 0) {
+        html += `<div class="urun-tipi">`;
+        html += `<h4>Kaçınılması Gereken İçerikler</h4><ul>`;
+        data.kacinilmasi_gerekenler.forEach(icerik => {
+          html += `<li>${icerik}</li>`;
+        });
+        html += `</ul>`;
+        html += `</div>`;
+      }
       html += `</div>`;
     }
+    container.innerHTML = html || '<p>İçerik önerisi bulunamadı.</p>';
 
-    if (data.kacinilmasi_gerekenler?.length > 0) {
-      html += `<div class="urun-tipi">`;
-      html += '<h4>Kaçınılması Gereken İçerikler</h4><ul>';
-      data.kacinilmasi_gerekenler.forEach(icerik => {
-        html += `<li>${icerik}</li>`;
+    fetch('static/veriler/icerikler.json')
+    .then(res => res.json())
+    .then(data => {
+      const zararliIcerikler = [
+        "Methylisothiazolinone",
+        "Methylchloroisothiazolinone",
+        "Butylated Hydroxyanisole (BHA)",
+        "Butylated Hydroxytoluene (BHT)",
+        "Formaldehyde-releasing Preservatives",
+        "Imidazolidinyl Urea",
+        "Diazolidinyl Urea",
+        "Sunscreen Chemicals",
+        "Parabens (e.g., Methylparaben)",
+        "Propylparaben",
+        "Phthalates (e.g., Dibutyl Phthalate)",
+        "Diethyl Phthalate",
+        "Lead (in certain color additives)",
+        "Mercury (in some skin-lightening products)",
+        "Coal tar (found in some hair dyes)",
+        "Fragrance",
+        "Triclosan",
+        "Talc",
+        "Mineral oils",
+        "Ethanolamines (MEA, DEA, TEA)",
+        "Microplastics",
+        "Nanoparticles",
+        "Hydroquinone",
+        "Oxybenzone",
+        "Sodium Lauryl Sulfate (SLS)",
+        "Toluene",
+        "Resorcinol",
+        "Polyethylene Glycols (PEGs)",
+        "Formaldehyde",
+        "Retinyl Palmitate (Vitamin A)",
+        "Artificial fragrance chemicals",
+        "Ammonia",
+        "Fragrance",
+        "Heavy Oils",
+        "Coconut Oil",
+        "Sulfates (Sodium Lauryl Sulfate)"
+        
+        
+      ].map(item => item.toLowerCase());
+  
+    // Puan hesapla
+    data.forEach(urun => {
+      const icerik = urun.icerik?.toLowerCase() || "";
+      let puan = 100;
+
+      zararliIcerikler.forEach(zararlilar => {
+        if (icerik.includes(zararlilar)) {
+          puan -= 5;
+        }
       });
-      html += '</ul>';
-      html += `</div>`;
+
+      urun.puan = puan;
+    });
+
+    // Kategorilere göre grupla
+    const kategorilereGore = {};
+    data.forEach(urun => {
+      const kategori = urun.urun || 'diğer';
+      if (!kategorilereGore[kategori]) {
+        kategorilereGore[kategori] = [];
+      }
+      kategorilereGore[kategori].push(urun);
+    });
+
+    // DOM'a yazdır
+    urunContainer.innerHTML = `<h2>En İyi ve Daha Az İyi Ürünler</h2>`;
+
+    for (const kategori in kategorilereGore) {
+      const grup = kategorilereGore[kategori];
+      const sirali = grup.sort((a, b) => b.puan - a.puan); // yüksekten düşüğe
+
+      // En iyi 3
+      const enIyi = sirali.slice(0, 3);
+      // En kötü 3
+      const enKotu = sirali.slice(-3).reverse(); // tersten al ki düşük puanlılar yukarıda gözüksün
+
+      const baslik = document.createElement('h3');
+      baslik.textContent = kategori.toUpperCase();
+      urunContainer.appendChild(baslik);
+
+      const iyiBaslik = document.createElement('p');
+      iyiBaslik.textContent = '✅ En İyi 3 Ürün:';
+      urunContainer.appendChild(iyiBaslik);
+
+      enIyi.forEach(urun => {
+        const div = document.createElement('div');
+        div.className = 'kart iyi';
+        div.innerHTML = `
+          <h4>${urun.urun_adi}</h4>
+          <p><strong>Puan:</strong> ${urun.puan}</p>
+         
+        `;
+        urunContainer.appendChild(div);
+      });
+
+      const kotuBaslik = document.createElement('p');
+      kotuBaslik.textContent = '❌ Daha Az İyi 3 Ürün:';
+      urunContainer.appendChild(kotuBaslik);
+
+      enKotu.forEach(urun => {
+        const div = document.createElement('div');
+        div.className = 'kart kotu';
+        div.innerHTML = `
+          <h4>${urun.urun_adi}</h4>
+          <p><strong>Puan:</strong> ${urun.puan}</p>
+          
+        `;
+        urunContainer.appendChild(div);
+      });
     }
-    html += `</div>`;
-  }
-  container.innerHTML = html || '<p>İçerik önerisi bulunamadı.</p>';
-
-  // Ürün önerileri
-  const icerikData = await fetch('static/veriler/icerikler.json').then(res => res.json());
-  const filtrelenmis = icerikData.filter(item => {
-    const jsonTip = item.cilt_tipi?.toLowerCase().trim();
-    return jsonTip?.includes(ciltTipi);
-  });
-
-  urunContainer.innerHTML = filtrelenmis.length > 0
-    ? `<h2>${label} için Önerilen Ürünler</h2>`
-    : `<h2>Önerilen ürün bulunamadı.</h2>`;
-
-  filtrelenmis.forEach(urun => {
-    const div = document.createElement('div');
-    div.className = 'kart';
-
-    // Arka plan rengini ürün tipine göre belirle
-    switch (urun.urun?.toLowerCase()) {
-      case 'jel':
-        div.style.backgroundColor = ' #fff'; // Açık mavi
-        break;
-      case 'tonik':
-        div.style.backgroundColor = 'rgb(244, 252, 248)'; // Açık yeşil
-        break;
-      case 'nemlendirici':
-        div.style.backgroundColor = ' #fff'; // Açık pembe
-        break;
-      default:
-        div.style.backgroundColor = '#f5f5f5'; // Belirtilmemiş için gri
-    }
-
-
-    div.innerHTML = `
-      <h3>${urun.urun_adi}</h3>
-      <p><strong>Ürün Tipi:</strong> ${urun.urun || 'Belirtilmemiş'}</p>
-    `;
-    urunContainer.appendChild(div);
   });
 
   // Avoid içerikleri
@@ -255,15 +337,19 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
 
 });
 
-searchBtn.addEventListener('click', () => {
+searchBtn.addEventListener('click', (e) => {
+  e.preventDefault();
   mainContainer.style.display = 'none';
   searchContainer.style.display = 'block';
+  settings.style.display = 'none';
 
 });
 
-homeBtn.addEventListener('click', () => {
+homeBtn.addEventListener('click', (e) => {
+  e.preventDefault();
   mainContainer.style.display = 'block';
   searchContainer.style.display = 'none';
+  settings.style.display = 'none';
 });
 
 
@@ -274,5 +360,125 @@ logOut.addEventListener('click', () => {
   }).catch((error) => {
     console.error("Çıkış hatası:", error);
   });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const data = {
+    "vitamin c": {
+      "unusable": [
+        { with: "Niacinamide", reason: "Vitamin C'nin etkinliğini ciddi ölçüde azaltabilir." }
+      ],
+      "image": "/static/images/vitaminc.png"
+    },
+    "retinoids": {
+      "unusable": [
+        { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
+        { with: "Benzoyl Peroxide", reason: "Retinoid'in etkinliğini azaltır; birlikte kullanılmamalı." }
+      ],
+      "image": "/static/images/vitaminc.png"
+    },
+    "beta-hydroxy acid (bha)": {
+      "unusable": [
+        { with: "Alpha-Hydroxy Acid (AHA)", reason: "Tahriş ve kuruluk yaratabilir." }
+      ],
+      "image": "/static/images/vitaminc.png"
+    }
+  };
+
+  const ingredientListDiv = document.getElementById("ingredientList");
+  const ingredientResultContainer = document.getElementById("ingredientResults");
+  const searchInput = document.getElementById("searchInput");
+
+  const allIngredients = Object.keys(data);
+
+function renderButtons(filteredIngredients) {
+  ingredientListDiv.innerHTML = "";
+  filteredIngredients.forEach(item => {
+    const ingredientData = data[item];
+    const card = document.createElement("div");
+    card.className = "ingredient-card";
+    card.onclick = () => showConflicts(item);
+
+    card.innerHTML = `
+      <img src="${ingredientData.image}" alt="${item}">
+      <div class="line-container">
+        <div class="ball"></div>
+        <div class="line"></div>
+      </div>
+      <div class="ingredient-info">
+        <div class="ingredient-name">${capitalize(item)}</div>
+        <div class="ingredient-description">İçerik hakkında bilgi görmek için tıkla.</div>
+      </div>
+    `;
+    
+    ingredientListDiv.appendChild(card);
+  });
+}
+
+
+  function showConflicts(ingredientKey) {
+    const normalized = ingredientKey.toLowerCase();
+    const conflicts = data[normalized]?.unusable || [];
+
+    if (conflicts.length === 0) {
+      ingredientResultContainer.innerHTML = `<div>🎉 ${capitalize(normalized)} ile ilgili herhangi bir uyumsuzluk bulunamadı.</div>`;
+      return;
+    }
+
+    const list = conflicts.map(item =>
+      `<div class="warning">⚠️ <b>${capitalize(normalized)}</b> ile <b>${item.with}</b>: ${item.reason}</div>`
+    ).join("");
+
+    ingredientResultContainer.innerHTML = `<h3>Uyumsuz İçerikler</h3>${list}`;
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  searchInput.addEventListener("input", () => {
+    const keyword = searchInput.value.toLowerCase();
+    const filtered = allIngredients.filter(i => i.includes(keyword));
+    renderButtons(filtered);
+    ingredientResultContainer.innerHTML = "";
+  });
+
+  // İlk başta tüm içerikleri göster
+  renderButtons(allIngredients);
+});
+
+
+settingsBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  mainContainer.style.display = 'none';
+  searchContainer.style.display = 'none';
+  settings.style.display = 'block';
+
+  const localAnalizData = JSON.parse(localStorage.getItem('sonAnaliz'));
+  console.log(localAnalizData);
+
+    if (localAnalizData) {
+    const { ciltTipi, label, result } = localAnalizData;
+    
+    settings.innerHTML = `
+      <h2>Cilt Tipi Analiz Sonucu</h2>
+      <p><strong>Cilt Tipi:</strong> ${ciltTipi}</p>
+      <p><strong>Önden Görünüm:</strong> ${result.onden}</p>
+      <p><strong>Yanak Görünüm:</strong> ${result.yanak}</p>
+      <h3>Önerilen Ürün Tipleri:</h3>
+      <div>${currentUser.email}</div>
+      <ul>
+        ${Object.entries(result.urun_tipleri).map(([tip, aciklama]) => `
+          <li><strong>${tip}:</strong> ${aciklama}</li>
+        `).join('')}
+      </ul>
+    `;
+  } else {
+    settings.innerHTML = `<p>Analiz verisi bulunamadı.</p>`;
+  }
+
+
 });
 
