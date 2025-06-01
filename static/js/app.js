@@ -45,6 +45,9 @@ const searchContainer = document.getElementById('search-container');
 const homeBtn = document.getElementById('homeBtn');
 const settingsBtn = document.querySelector('.settingsBtn');
 const settings = document.querySelector('.settings');
+const skinTypeDiv = document.getElementById('skin-type');
+const skinImageSettings1 = document.getElementById('skin-image-settings1');
+const skinImageSettings2 = document.getElementById('skin-image-settings2');
 
 
 
@@ -64,6 +67,11 @@ logOut.onclick = () => {
   firebase.auth().signOut().then(() => location.reload());
 };
 
+const lastResults = JSON.parse(localStorage.getItem('sonAnaliz'));
+if (lastResults) {
+  const { label, ciltTipi } = lastResults;
+  skinTypeDiv.innerHTML = `${label}`;
+}
 
 // 🔍 Görsel ön izleme
 function handlePreview(input, previewElement) {
@@ -77,11 +85,14 @@ function handlePreview(input, previewElement) {
       };
       reader.readAsDataURL(file);
     }
+    
   });
 }
 
 handlePreview(yanakInput, previewYanak);
 handlePreview(ondenInput, previewOnden);
+
+
 
 // 🔎 Analiz butonuna tıklanınca
 analyzeBtn.addEventListener('click', async () => {
@@ -115,7 +126,7 @@ analyzeBtn.addEventListener('click', async () => {
     resultDiv.innerHTML = `<strong>Cilt Tipiniz:</strong> ${label}`;
 
     // Sonuçları localStorage'a kaydet (kullanıcı sonra "Sonuçlarım"da görecek)
-    localStorage.setItem('sonAnaliz', JSON.stringify({ result, label, ciltTipi }));
+    localStorage.setItem('sonAnaliz', JSON.stringify({ result, label, ciltTipi}));
 
     // Firebase'e kayıt
     if (currentUser) {
@@ -241,6 +252,36 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
         
         
       ].map(item => item.toLowerCase());
+
+
+    const filtrelenmisUrunler = data.filter(urun =>
+      urun.cilt_tipi?.toLowerCase() === ciltTipi.toLowerCase()
+    );
+
+    const gosterilecekUrunler = filtrelenmisUrunler.length > 0 ? filtrelenmisUrunler : data;
+
+    gosterilecekUrunler.forEach(urun => {
+      const icerik = urun.icerik?.toLowerCase() || "";
+      let puan = 100;
+
+      zararliIcerikler.forEach(zararlilar => {
+        if (icerik.includes(zararlilar)) {
+          puan -= 5;
+        }
+      });
+
+      urun.puan = puan;
+    });
+
+  // Aynı şekilde kategorilere göre grupla
+  const kategorilereGore = {};
+  gosterilecekUrunler.forEach(urun => {
+    const kategori = urun.urun || 'diğer';
+    if (!kategorilereGore[kategori]) {
+      kategorilereGore[kategori] = [];
+    }
+    kategorilereGore[kategori].push(urun);
+  });
   
     // Puan hesapla
     data.forEach(urun => {
@@ -254,16 +295,6 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
       });
 
       urun.puan = puan;
-    });
-
-    // Kategorilere göre grupla
-    const kategorilereGore = {};
-    data.forEach(urun => {
-      const kategori = urun.urun || 'diğer';
-      if (!kategorilereGore[kategori]) {
-        kategorilereGore[kategori] = [];
-      }
-      kategorilereGore[kategori].push(urun);
     });
 
     // DOM'a yazdır
@@ -319,7 +350,9 @@ document.getElementById('viewResultsBtn').addEventListener('click', async () => 
   const avoidList = avoidData[ciltTipi]?.avoid || [];
 
   if (avoidList.length > 0) {
+    avoidContainer.innerHTML = ''; 
     const avoidDiv = document.createElement('div');
+    avoidDiv.innerHTML = " ";
     avoidDiv.className = 'avoid';
     let html = `<h2 style="margin-top:30px;">${label} Cilt Tipi için Önerilmeyen İçerikler</h2>`;
     html += `<ul>`;
@@ -422,17 +455,32 @@ function renderButtons(filteredIngredients) {
     const normalized = ingredientKey.toLowerCase();
     const conflicts = data[normalized]?.unusable || [];
 
+    const modal = document.getElementById("conflictModal");
+    const modalBody = document.getElementById("modalBody");
+
     if (conflicts.length === 0) {
-      ingredientResultContainer.innerHTML = `<div>🎉 ${capitalize(normalized)} ile ilgili herhangi bir uyumsuzluk bulunamadı.</div>`;
-      return;
+      modalBody.innerHTML = `<div>🎉 <b>${capitalize(normalized)}</b> ile ilgili herhangi bir uyumsuzluk bulunamadı.</div>`;
+    } else {
+      const list = conflicts.map(item =>
+        `<div class="warning">⚠️ <b>${capitalize(normalized)}</b> ile <b>${item.with}</b>: ${item.reason}</div>`
+      ).join("");
+      modalBody.innerHTML = `<h3>Uyumsuz İçerikler</h3>${list}`;
     }
 
-    const list = conflicts.map(item =>
-      `<div class="warning">⚠️ <b>${capitalize(normalized)}</b> ile <b>${item.with}</b>: ${item.reason}</div>`
-    ).join("");
-
-    ingredientResultContainer.innerHTML = `<h3>Uyumsuz İçerikler</h3>${list}`;
+    modal.style.display = "block";
   }
+  const closeBtn = document.getElementById("closeModal");
+  const modal = document.getElementById("conflictModal");
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  window.onclick = event => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -449,6 +497,8 @@ function renderButtons(filteredIngredients) {
   renderButtons(allIngredients);
 });
 
+const userEmail = document.querySelector('.user-email');
+
 
 settingsBtn.addEventListener('click', (e) => {
   e.preventDefault();
@@ -456,27 +506,16 @@ settingsBtn.addEventListener('click', (e) => {
   searchContainer.style.display = 'none';
   settings.style.display = 'block';
 
+  userEmail.textContent = currentUser ? `${currentUser.email}` : 'Giriş yapmadınız.';
+
   const localAnalizData = JSON.parse(localStorage.getItem('sonAnaliz'));
   console.log(localAnalizData);
 
     if (localAnalizData) {
     const { ciltTipi, label, result } = localAnalizData;
-    
-    settings.innerHTML = `
-      <h2>Cilt Tipi Analiz Sonucu</h2>
-      <p><strong>Cilt Tipi:</strong> ${ciltTipi}</p>
-      <p><strong>Önden Görünüm:</strong> ${result.onden}</p>
-      <p><strong>Yanak Görünüm:</strong> ${result.yanak}</p>
-      <h3>Önerilen Ürün Tipleri:</h3>
-      <div>${currentUser.email}</div>
-      <ul>
-        ${Object.entries(result.urun_tipleri).map(([tip, aciklama]) => `
-          <li><strong>${tip}:</strong> ${aciklama}</li>
-        `).join('')}
-      </ul>
-    `;
+
   } else {
-    settings.innerHTML = `<p>Analiz verisi bulunamadı.</p>`;
+    settings.innerHTML += `<p>Analiz verisi bulunamadı.</p>`;
   }
 
 

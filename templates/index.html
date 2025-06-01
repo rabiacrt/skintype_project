@@ -154,14 +154,41 @@
                 verimi almak için çok önemlidir.
             </div>
 
-            <input type="text" id="searchInput" placeholder="İçerik ara (örn: vitamin c)">
+            <div class="input-container">
+                <input type="text" id="searchInput" placeholder="İçerik ara (örn: vitamin c)">
+            </div>
+
             <div id="ingredientList"></div>
             <div id="ingredientResults"></div>
 
         </div>
 
+        <div id="conflictModal" class="modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
         <div class="settings" style="display: none;">
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet officia distinctio delectus est dignissimos et. Saepe magni, minima asperiores, velit magnam porro, perspiciatis possimus et iure consectetur quae inventore fugit?</div>
+            <h2>Ayarlar</h2>
+            <p>Bu bölümde uygulama bilgilerinizi bulabilirsiniz</p>
+            <div class="card">
+                <h3>👤 Kullanıcı Bilgisi</h3>
+                <p class="user-email"></p>
+            </div>
+            <div class="card">
+                <h3>🧬 Cilt Tipi Bilgisi</h3>
+                <p id="skin-type">Yükleniyor...</p>
+            </div>
+            <div class="card">
+                <h3>📷 Cilt Görselleri</h3>
+                <div class="image-grid">
+                    <img src="" alt="Cilt 1" id="skin-image-settings1">
+                    <img src="" alt="Cilt 2" id="skin-image-settings2">
+                </div>
+            </div>
+
         </div>
 
     </div>
