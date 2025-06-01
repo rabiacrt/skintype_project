@@ -67,6 +67,9 @@ logOut.onclick = () => {
   firebase.auth().signOut().then(() => location.reload());
 };
 
+
+
+
 const lastResults = JSON.parse(localStorage.getItem('sonAnaliz'));
 if (lastResults) {
   const { label, ciltTipi } = lastResults;

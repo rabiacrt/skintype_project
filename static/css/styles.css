@@ -828,8 +828,28 @@ nav a:hover {
     text-align: center;
     
   }
-  .urun-tipi {
+  #ingredientList{
+    text-align: center;
+    margin: 0 auto;
+    width: 91%;
+    display: block;
+  }
+  .ingredient-card{
+    width: 90%; /* Kart genişliğini artır */
+    margin: 0 auto; /* Kartları ortala */
+    padding: 20px; /* Padding'i artır */
+  }
+  /* Tek sıra numarası: sola yasla */
+  .ingredient-card:nth-child(odd) {
+    align-self: center;
+  }
 
+  /* Çift sıra numarası: sağa yasla */
+  .ingredient-card:nth-child(even) {
+    align-self: center;
+  }
+  .container-home {
+    padding: 0px !important;
   }
 
 }
