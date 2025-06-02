@@ -48,6 +48,7 @@ const settings = document.querySelector('.settings');
 const skinTypeDiv = document.getElementById('skin-type');
 const skinImageSettings1 = document.getElementById('skin-image-settings1');
 const skinImageSettings2 = document.getElementById('skin-image-settings2');
+const recommendedIngredients = document.getElementById('recommended-ingredients');
 
 
 
@@ -67,13 +68,50 @@ logOut.onclick = () => {
   firebase.auth().signOut().then(() => location.reload());
 };
 
-
-
-
 const lastResults = JSON.parse(localStorage.getItem('sonAnaliz'));
 if (lastResults) {
-  const { label, ciltTipi } = lastResults;
+  const { label, ciltTipi, result } = lastResults;
   skinTypeDiv.innerHTML = `${label}`;
+  const urunTipleri = result.urun_tipleri || {};
+  let html = '';
+  for (const [urunTipi, data] of Object.entries(urunTipleri)) {
+    html += `<div class="urun-tipi-container">`;
+    html += `<div class="urun-tipi">`;
+    html += `<h3>${urunTipi.charAt(0).toUpperCase() + urunTipi.slice(1)} İçin Önerilen İçerikler</h3>`;
+
+    if (data.onerilen_icerikler.length > 0) {
+      html += '<ul>';
+      data.onerilen_icerikler.forEach(item => {
+        html += `<li><strong>${item.icerik}</strong> (${item.adet} kez)</li>`;
+      });
+      html += '</ul>';
+    } else {
+      html += '<p>Önerilen içerik bulunamadı.</p>';
+    }
+    html += `</div>`;
+
+    if (data.icerik_gruplari.length > 0) {
+      html += `<div class="urun-tipi">`;
+      html += '<h4>İçerik Grupları</h4><ul>';
+      data.icerik_gruplari.forEach(grup => {
+        html += `<li><strong>${grup.grup}</strong> (${grup.adet} içerik)</li>`;
+      });
+      html += '</ul>';
+      html += `</div>`;
+    }
+
+    if (data.kacinilmasi_gerekenler && data.kacinilmasi_gerekenler.length > 0) {
+      html += `<div class="urun-tipi">`;
+      html += `<h4>Kaçınılması Gereken İçerikler</h4><ul>`;
+      data.kacinilmasi_gerekenler.forEach(icerik => {
+        html += `<li>${icerik}</li>`;
+      });
+      html += `</ul>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  recommendedIngredients.innerHTML = html || '<p>İçerik önerisi bulunamadı.</p>';
 }
 
 // 🔍 Görsel ön izleme
@@ -408,6 +446,19 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       "image": "/static/images/vitaminc.png"
     },
+    "rrr": {
+      "unusable": [
+        { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
+        { with: "Benzoyl Peroxide", reason: "Retinoid'in etkinliğini azaltır; birlikte kullanılmamalı." }
+      ],
+      "image": "/static/images/retinoids.png"
+    },
+    "v c": {
+      "unusable": [
+        { with: "Niacinamide", reason: "Vitamin C'nin etkinliğini ciddi ölçüde azaltabilir." }
+      ],
+      "image": "/static/images/vitaminc.png"
+    },
     "retinoids": {
       "unusable": [
         { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
@@ -417,7 +468,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     "beta-hydroxy acid (bha)": {
       "unusable": [
-        { with: "Alpha-Hydroxy Acid (AHA)", reason: "Tahriş ve kuruluk yaratabilir." }
+        { with: "Alpha-Hydroxy Acid (AHA)", reason: "Tahriş ve kuruluk yaratabilir." },
+        { with: "Vitamin C", reason: " Düşük pH ortamı gerektiren bu iki içerik birlikte kullanıldığında cildi irrite edebilir ve C vitamini bozulabilir. Sabah C vitamini, akşam salisilik asit tercih edilebilir." }
       ],
       "image": "/static/images/bha.png"
     }

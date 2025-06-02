@@ -97,7 +97,7 @@ h1,h2 {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.header, .header-search{
+.header, .header-search, .header-settings{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -113,10 +113,22 @@ h1,h2 {
 .header-search {
   background-image: url('/static/images/dontUse.png');
 }
+.header-settings {
+  background-image: url('/static/images/foto3.jpg');
+  padding-block: 120px !important;
+}
 .mainGeneral{
   position: relative;
   width: 100%;
   height: 17vh;
+  overflow: hidden;
+  margin-bottom: 40px;
+
+}
+.settingsGeneral{
+  position: relative;
+  width: 100%;
+  height: 50px;
   overflow: hidden;
   margin-bottom: 40px;
 
@@ -308,6 +320,14 @@ input[type="file"] {
   width: 90%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.settings{
+  height: 95vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 90%;
+  height: auto; /* Yüksekliği otomatik yap */
 }
 
 .searchInfoText{
@@ -721,6 +741,19 @@ nav a:hover {
   color: #000;
 }
 
+#recommended-ingredients {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  gap: 30px;
+  justify-content: space-between;
+  padding-inline: 160px;
+  padding-block: 20px;
+}
 
 
 
@@ -766,7 +799,7 @@ nav a:hover {
     align-items: center;
     gap: 10px;
   }
-  #main-container, #search-container {
+  #main-container, #search-container, .settings {
     margin-top: 30px;
     width: 100%;
     height: auto; /* Yüksekliği otomatik yap */

@@ -7,6 +7,8 @@ import json
 from collections import Counter
 import firebase_admin
 from firebase_admin import credentials, firestore
+import re
+from static.veriler.equivalents import equivalents # 🔸 Eşanlamlılar için ayrı bir dosya
 
 app = Flask(__name__)
 app.secret_key = 'bu_cok_gizli_ve_uzun_bir_anahtar_olmalı_1234!'  # Session için gizli anahtar
@@ -30,13 +32,7 @@ with open("static/veriler/icerikler.json", "r", encoding="utf-8") as f:
    
 
 # 🔹 Eşanlamlılar ve gruplar
-esanlamlilar = {
-    "aqua(water)": "aqua/water",
-    "aqua (water)": "aqua/water",
-    "aqua": "aqua/water",
-    "water": "aqua/water",
-    "glycerin": "glycerine",
-}
+esanlamlilar = equivalents
 
 icerik_gruplari = {
     "aqua/water": "baz",
@@ -49,19 +45,25 @@ icerik_gruplari = {
 
 kullanici_alergileri = {"parfum", "alcohol"}
 
+def is_valid_content(text):
+    return bool(re.search(r'[a-zA-Z0-9]', text))
+
 def en_cok_gecen_icerikler(veri, urun_tipi, cilt_tipi):
     icerik_sayac = Counter()
     grup_sayac = Counter()
 
     for urun in veri:
         urun_adi = urun.get("urun_adi", "").lower()
+        urun_turu = urun.get("urun", "").lower()
         cilt = urun.get("cilt_tipi", "").lower()
         icerik_str = urun.get("icerik", "")
 
-        if urun_tipi in urun_adi and cilt_tipi in cilt:
+        if urun_turu == urun_tipi and cilt_tipi in cilt:
             maddeler = [madde.strip().lower() for madde in icerik_str.split(",")]
             for madde in maddeler:
                 madde = esanlamlilar.get(madde, madde)
+                if not is_valid_content(madde):
+                    continue    
                 if madde not in kullanici_alergileri:
                     icerik_sayac[madde] += 1
                     grup = icerik_gruplari.get(madde, "diğer")
