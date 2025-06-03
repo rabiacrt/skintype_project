@@ -763,6 +763,15 @@ nav a:hover {
   padding-block: 20px;
 }
 
+.imageInfo {
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
 
 
 @media only screen and (max-width: 1350px) {
