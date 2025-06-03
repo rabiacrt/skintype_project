@@ -1,0 +1,83 @@
+{
+"vitamin c": {
+    "unusable": [
+    { "with": "Niacinamide", "reason": "Vitamin C'nin etkinliğini ciddi ölçüde azaltabilir." },
+    {
+        "with": "Retinoid or Retinol",
+        "reason": "Farklı pH değerlerinde çalışırlar, birlikte kullanıldığında C vitamini bozulabilir ve tahrişe neden olabilir. Sabah C vitamini, akşam retinol önerilir."
+    },
+    {
+        "with": "Beta-Hydroxy Acid (BHA)",
+        "reason": "Düşük pH ortamı gerektiren bu iki içerik birlikte kullanıldığında cildi irrite edebilir ve C vitamini bozulabilir. Sabah C vitamini, akşam salisilik asit tercih edilebilir."
+    }
+    ],
+    "image": "/static/images/vitaminc.png"
+},
+"retinoid_or_retinol": {
+    "unusable": [
+    {
+        "with": "Benzoyl Peroxide",
+        "reason": "Benzoyl peroksit, retinolü etkisiz hale getirebilir ve birlikte kullanıldığında ciltte kuruluk, soyulma ve tahrişe yol açabilir."
+    },
+    {
+        "with": "Vitamin C",
+        "reason": "Retinol ve C vitamini farklı pH düzeylerinde çalışır, birlikte kullanıldıklarında ciltte tahriş ve kızarıklığa neden olabilir. Sabah C vitamini, akşam retinol önerilir."
+    },
+    {
+        "with": "Salicylic Acid (BHA)",
+        "reason": "Ciltte kızarıklık, soyulma ve tahriş gibi etkiler görülebilir. Hassas ciltlerde özellikle dikkatli kullanılmalıdır."
+    },
+    {
+        "with": "Alpha-Hydroxy Acids (AHAs)",
+        "reason": "Her iki içerik de hücre yenilenmesini hızlandırır; birlikte kullanıldığında aşırı eksfoliasyon ve ciltte tahriş oluşabilir."
+    },
+    {
+        "with": "Beta-Hydroxy Acids (BHAs)",
+        "reason": "Retinol ve BHA'lar birlikte kullanıldığında aşırı tahrişe neden olabilir. Farklı günlerde kullanılması önerilir."
+    }
+    ],
+    "image": "/static/images/retinoids.png"
+},
+
+"benzoyl_peroxide": {
+    "unusable": [
+    {
+        "with": "Retinoid or Retinol",
+        "reason": "Retinoidi etkisiz hale getirir ve birlikte kullanıldığında kuruluk, soyulma ve tahriş yapabilir."
+    }
+    ],
+    "image": "/static/images/benzoyl.png"
+},
+
+"beta-hydroxy_acid_(bha)": {
+    "unusable": [
+    {
+        "with": "Alpha-Hydroxy Acid (AHA)",
+        "reason": "Tahriş ve kuruluk yaratabilir."
+    },
+    {
+        "with": "Vitamin C",
+        "reason": "Düşük pH ortamı gerektiren bu iki içerik birlikte kullanıldığında cildi irrite edebilir ve C vitamini bozulabilir. Sabah C vitamini, akşam salisilik asit tercih edilebilir."
+    },
+    {
+        "with": "Retinoid or Retinol",
+        "reason": "Birlikte kullanıldığında ciltte soyulma ve aşırı hassasiyet oluşturabilir. Farklı zamanlarda uygulanmaları önerilir."
+    }
+    ],
+    "image": "/static/images/bha.png"
+},
+
+"alpha-hydroxy_acid_(aha)": {
+    "unusable": [
+    {
+        "with": "Beta-Hydroxy Acid (BHA)",
+        "reason": "İkisi birlikte kullanıldığında ciltte aşırı kuruluk ve iritasyon olabilir."
+    },
+    {
+        "with": "Retinoid or Retinol",
+        "reason": "Cilt bariyerine yük bindirir, soyulma ve tahriş riskini artırır. Aynı anda kullanılmaları önerilmez."
+    }
+    ],
+    "image": "/static/images/aha3.png"
+}
+}

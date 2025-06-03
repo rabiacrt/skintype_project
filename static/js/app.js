@@ -438,42 +438,13 @@ logOut.addEventListener('click', () => {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const data = {
-    "vitamin c": {
-      "unusable": [
-        { with: "Niacinamide", reason: "Vitamin C'nin etkinliğini ciddi ölçüde azaltabilir." }
-      ],
-      "image": "/static/images/vitaminc.png"
-    },
-    "rrr": {
-      "unusable": [
-        { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
-        { with: "Benzoyl Peroxide", reason: "Retinoid'in etkinliğini azaltır; birlikte kullanılmamalı." }
-      ],
-      "image": "/static/images/retinoids.png"
-    },
-    "v c": {
-      "unusable": [
-        { with: "Niacinamide", reason: "Vitamin C'nin etkinliğini ciddi ölçüde azaltabilir." }
-      ],
-      "image": "/static/images/vitaminc.png"
-    },
-    "retinoids": {
-      "unusable": [
-        { with: "Acids (AHAs, BHAs)", reason: "Cildi aşırı hassaslaştırır; birlikte kullanılmamalı." },
-        { with: "Benzoyl Peroxide", reason: "Retinoid'in etkinliğini azaltır; birlikte kullanılmamalı." }
-      ],
-      "image": "/static/images/retinoids.png"
-    },
-    "beta-hydroxy acid (bha)": {
-      "unusable": [
-        { with: "Alpha-Hydroxy Acid (AHA)", reason: "Tahriş ve kuruluk yaratabilir." },
-        { with: "Vitamin C", reason: " Düşük pH ortamı gerektiren bu iki içerik birlikte kullanıldığında cildi irrite edebilir ve C vitamini bozulabilir. Sabah C vitamini, akşam salisilik asit tercih edilebilir." }
-      ],
-      "image": "/static/images/bha.png"
-    }
-  };
+document.addEventListener("DOMContentLoaded", async ()  => {
+
+  const data = await fetch('/static/veriler/data.json')
+  .then((res) => res.json())
+  .then((data) => {
+    return data;
+  });
 
   const ingredientListDiv = document.getElementById("ingredientList");
   const ingredientResultContainer = document.getElementById("ingredientResults");
@@ -517,7 +488,7 @@ function renderButtons(filteredIngredients) {
       modalBody.innerHTML = `<div>🎉 <b>${capitalize(normalized)}</b> ile ilgili herhangi bir uyumsuzluk bulunamadı.</div>`;
     } else {
       const list = conflicts.map(item =>
-        `<div class="warning">⚠️ <b>${capitalize(normalized)}</b> ile <b>${item.with}</b>: ${item.reason}</div>`
+        `<div class="warning">⚠️ <b>${item.with}</b>: ${item.reason}</div>`
       ).join("");
       modalBody.innerHTML = `<h3>Uyumsuz İçerikler</h3>${list}`;
     }
