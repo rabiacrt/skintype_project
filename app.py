@@ -189,7 +189,7 @@ def predict():
         yanak_label = tahmin_yap(img1)
         onden_label = tahmin_yap(img2)
 
-        if yanak_label == "kuru":
+        if onden_label == "yağlı" and yanak_label in ["kuru", "normal"]:
             final_label = "karma"
         else:
             final_label = onden_label
