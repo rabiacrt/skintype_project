@@ -35,42 +35,41 @@
     messagingSenderId: "1050424184852",
     appId: "1:1050424184852:web:eec13235993c41bba51701",
     measurementId: "G-536RM71HM0"
-      // diğer config değerleri...
+      
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-   // Hata gösterme fonksiyonu
+   
     function showError(message) {
       const errorDiv = document.getElementById('signupError');
       const messageSpan = document.getElementById('errorMessage');
       errorDiv.style.display = 'block';
       errorDiv.style.animation = 'none';
-      void errorDiv.offsetWidth; // reflow tetiklenir
+      void errorDiv.offsetWidth; 
       errorDiv.style.animation = null;
       messageSpan.textContent = message;
     }
 
-    // Kayıt işlemi
+   
     const signupBtn = document.getElementById('signupBtn');
     signupBtn.addEventListener('click', () => {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
-  // Alan boş mu kontrolü
+  
   if (!email || !password || !confirmPassword) {
    showError("Lütfen e-posta ve şifre alanlarını doldurun.");
     return;
   }
 
-  // E-posta format kontrolü
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     showError("Lütfen geçerli bir e-posta adresi girin.");
     return;
   }
 
-  // Şifreler aynı mı?
   if (password !== confirmPassword) {
     showError("Şifreler eşleşmiyor.");
     return;
@@ -78,8 +77,6 @@
   
 
 
-
-  // Firebase ile kayıt
   auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
       window.location.href = "/login";

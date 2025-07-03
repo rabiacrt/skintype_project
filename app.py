@@ -8,30 +8,25 @@ from collections import Counter
 import firebase_admin
 from firebase_admin import credentials, firestore
 import re
-from static.veriler.equivalents import equivalents # 🔸 Eşanlamlılar için ayrı bir dosya
+from static.veriler.equivalents import equivalents 
 
 app = Flask(__name__)
-app.secret_key = 'bu_cok_gizli_ve_uzun_bir_anahtar_olmalı_1234!'  # Session için gizli anahtar
+app.secret_key = 'bu_cok_gizli_ve_uzun_bir_anahtar_olmalı_1234!'  
 
-# Firebase setup (sadece bir kez başlatılır)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("bitirme-e59ed-firebase-adminsdk-fbsvc-d8e9916e10.json")  # 🔸 dosya yolu senin .json dosyana göre olmalı
+    cred = credentials.Certificate("bitirme-e59ed-firebase-adminsdk-fbsvc-d8e9916e10.json")  
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://bitirme-e59ed-default-rtdb.firebaseio.com/'
     })
 
 db = firestore.client()
 
-# 🔹 Modeli yükle
 model = tf.keras.models.load_model('skin_type_classifier8.h5')
 
-# 🔹 JSON verisini oku
 with open("static/veriler/icerikler.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
    
-
-# 🔹 Eşanlamlılar ve gruplar
 esanlamlilar = equivalents
 
 icerik_gruplari = {
@@ -128,8 +123,7 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     
-    # Burada Firebase Authentication ile şifre doğrulaması yapman gerekir.
-    # Şimdilik sadece email kontrolü yapıyoruz.
+
     
     uid, user_data = get_user_by_email(email)
     if uid is None:
@@ -158,7 +152,7 @@ def search_product():
     if not aranan_urun:
         return jsonify({"error": "Lütfen ürün adı girin."}), 400
 
-    # Ürünleri ara
+
     bulunan_urun = None
     for urun in data.get("urunler", []):
         if aranan_urun in urun.get("urun_adi", "").lower():
@@ -168,7 +162,6 @@ def search_product():
     if not bulunan_urun:
         return jsonify({"message": "Ürün bulunamadı."}), 404
 
-    # Bulunan ürünün içerik bilgilerini dön
     return jsonify({
         "urun_adi": bulunan_urun.get("urun_adi"),
         "icerik": bulunan_urun.get("icerik", [])

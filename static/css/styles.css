@@ -48,8 +48,8 @@ h1,h2 {
     
 }
 .side-bar{
-  height: 95vh; /* Sabit yüksekliği koru */
-  overflow: hidden; /* Kaymasın */
+  height: 95vh; 
+  overflow: hidden; 
   padding: 10px;
   background-color: #d3d4ce;
   border-radius: 10px;
@@ -159,21 +159,21 @@ h1,h2 {
 }
 .maintext-2 {
   font-size: 4rem;
-  color: #6bbf59; /* pastel yeşil */
+  color: #6bbf59; 
   font-weight: bold;
   letter-spacing: 1px;
 
 }
 .subtext{
   font-size: 1.8rem;
-  color: #3f5f4b; /* daha açık bir yeşil tonu veya pastel gri yeşil */
+  color: #3f5f4b; 
   margin-top: 20px;
   font-weight: normal;
   font-family: 'Lato', sans-serif;
 }
 .searchSubtext{
   font-size: 1.0rem;
-  color: #3f5f4b; /* daha açık bir yeşil tonu veya pastel gri yeşil */
+  color: #3f5f4b; 
   margin-top: 20px;
   font-weight: normal;
   font-family: 'Lato', sans-serif;
@@ -284,7 +284,7 @@ input[type="file"] {
   justify-content: space-between;
   align-items: start;
   padding: 20px;
-  overflow-x: auto;       /* Yatay scroll */
+  overflow-x: auto;       
   overflow-y: hidden; 
 }
 .urun-tipi-container{
@@ -294,7 +294,7 @@ input[type="file"] {
   padding-inline: 25px;
   background: #fff;
   min-width: 200px;
-  flex-shrink: 0;  /* kutular küçülmesin */
+  flex-shrink: 0;  
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .urun-tipi {
@@ -327,7 +327,7 @@ input[type="file"] {
   overflow-y: scroll;
   overflow-x: hidden;
   width: 90%;
-  height: auto; /* Yüksekliği otomatik yap */
+  height: auto; 
 }
 
 .searchInfoText{
@@ -395,7 +395,7 @@ nav a:hover {
     margin-top: 15px;
   }
 
-/* Uyarı kutusu için stil */
+
 #errorBox {
   display: flex;
   align-items: center;
@@ -409,13 +409,13 @@ nav a:hover {
   animation: shake 0.4s ease;
 }
 
-/* Uyarı ikonu */
+
 #errorIcon {
   margin-right: 10px;
   font-size: 18px;
 }
 
-/* Shake animasyonu */
+
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -423,7 +423,7 @@ nav a:hover {
   75% { transform: translateX(-5px); }
   100% { transform: translateX(0); }
 }
-/* Login hatası için aynı görünüm */
+
 #errorBoxLogin {
   display: flex;
   align-items: center;
@@ -672,12 +672,12 @@ nav a:hover {
   transition: transform 0.2s ease;
 }
 
-/* Tek sıra numarası: sola yasla */
+
 .ingredient-card:nth-child(odd) {
   align-self: flex-start;
 }
 
-/* Çift sıra numarası: sağa yasla */
+
 .ingredient-card:nth-child(even) {
   align-self: flex-end;
 }
@@ -698,7 +698,7 @@ nav a:hover {
   color: #4a4a4a;
 }
 
-/* dialog tasarımı */
+
 
 .modal {
   display: none;
@@ -780,16 +780,16 @@ nav a:hover {
     top: 49%;
     left: 27%;
     transform: translate(-50%, -50%);
-    font-size: 2.5rem; /* Yazı boyutunu küçült */
+    font-size: 2.5rem; 
   }
 
 }
   
 @media screen and (max-width: 1200px){
-  /* Bu blok içindeki CSS'ler telefon gibi dar ekranlarda geçerli olur */
+  
   .container-home {
-    flex-direction: column; /* Dikey hizalama */
-    height: auto; /* Yüksekliği otomatik yap */
+    flex-direction: column; 
+    height: auto; 
   }
 
   .side-bar{
@@ -800,7 +800,7 @@ nav a:hover {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    height: auto; /* Yüksekliği otomatik yap */
+    height: auto; 
   }
   .logo-container {
     display: flex;
@@ -819,14 +819,14 @@ nav a:hover {
   #main-container, #search-container, .settings {
     margin-top: 30px;
     width: 100%;
-    height: auto; /* Yüksekliği otomatik yap */
-    overflow-y: auto; /* Yatay kaydırma çubuğunu kaldır */
+    height: auto;
+    overflow-y: auto; 
   }
 
   .images {
-    flex-direction: column; /* Dikey hizalama */
-    align-items: center; /* Ortala */
-    gap: 20px; /* Aralığı artır */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px; 
   }
   #previewYanak, #previewOnden {
     width: 400px;
@@ -836,12 +836,12 @@ nav a:hover {
     top: 48%;
     left: 27%;
     transform: translate(-50%, -50%);
-    font-size: 2.5rem; /* Yazı boyutunu küçült */
+    font-size: 2.5rem; 
   }
   #result {
     font-size: 20px;
-    padding: 15px 20px; /* Padding'i azalt */
-    margin-top: 10px; /* Margin'i azalt */
+    padding: 15px 20px; 
+    margin-top: 10px; 
   }
 
   #search-container{
@@ -854,7 +854,7 @@ nav a:hover {
   .analyzeText {
     left: 30%;
     transform: translate(-50%, -50%);
-    font-size: 2.5rem; /* Yazı boyutunu küçült */
+    font-size: 2.5rem;
   }
 
 }
@@ -864,17 +864,17 @@ nav a:hover {
   .analyzeText {
     left: 35%;
     transform: translate(-50%, -50%);
-    font-size: 2.5rem; /* Yazı boyutunu küçült */
+    font-size: 2.5rem; 
   }
   #icerik-onerileri {
-    flex-direction: column; /* Dikey hizalama */
-    align-items: center; /* Ortala */
+    flex-direction: column; 
+    align-items: center; 
     padding-inline: 0px;
-    gap: 30px; /* Aralığı artır */
+    gap: 30px; 
     padding-block: 20px;
   }
   .urun-tipi-container{
-    width: 50%; /* Her kutu tam genişlikte */
+    width: 50%; 
     text-align: center;
     
   }
@@ -885,16 +885,16 @@ nav a:hover {
     display: block;
   }
   .ingredient-card{
-    width: 90%; /* Kart genişliğini artır */
-    margin: 0 auto; /* Kartları ortala */
-    padding: 20px; /* Padding'i artır */
+    width: 90%; 
+    margin: 0 auto;
+    padding: 20px; 
   }
-  /* Tek sıra numarası: sola yasla */
+
   .ingredient-card:nth-child(odd) {
     align-self: center;
   }
 
-  /* Çift sıra numarası: sağa yasla */
+
   .ingredient-card:nth-child(even) {
     align-self: center;
   }
@@ -913,7 +913,7 @@ nav a:hover {
   .analyzeText {
     left: 44%;
     transform: translate(-50%, -50%);
-    font-size: 2.5rem; /* Yazı boyutunu küçült */
+    font-size: 2.5rem; 
   }
 
   .instructions ul {
