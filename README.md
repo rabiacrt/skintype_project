@@ -58,7 +58,9 @@ Normal
 
 Combination
 
-Images from the Website<img width="830" alt="Ekran Resmi 2025-07-03 20 49 39" src="https://github.com/user-attachments/assets/0679ba9a-b498-434c-8c61-f6203ce892d9" />
+Images from the Website
+
+<img width="830" alt="Ekran Resmi 2025-07-03 20 49 39" src="https://github.com/user-attachments/assets/0679ba9a-b498-434c-8c61-f6203ce892d9" />
 <img width="827" alt="Ekran Resmi 2025-07-03 20 49 54" src="https://github.com/user-attachments/assets/cd679787-40e1-4d7a-ad49-468d018964d6" />
 
 Future Improvements
